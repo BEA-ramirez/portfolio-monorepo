@@ -51,7 +51,9 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Project: 'Project'
+  User: 'User',
+  Project: 'Project',
+  BlogPost: 'BlogPost'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -70,20 +72,47 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  password: 'password',
+  createdAt: 'createdAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
 export const ProjectScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  description: 'description',
-  techStack: 'techStack',
-  liveUrl: 'liveUrl',
+  slug: 'slug',
+  thumbnail: 'thumbnail',
+  tags: 'tags',
   githubUrl: 'githubUrl',
-  imageUrl: 'imageUrl',
-  published: 'published',
+  liveUrl: 'liveUrl',
+  content: 'content',
+  isPublished: 'isPublished',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const BlogPostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  coverImage: 'coverImage',
+  excerpt: 'excerpt',
+  tags: 'tags',
+  content: 'content',
+  isPublished: 'isPublished',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BlogPostScalarFieldEnum = (typeof BlogPostScalarFieldEnum)[keyof typeof BlogPostScalarFieldEnum]
 
 
 export const SortOrder = {

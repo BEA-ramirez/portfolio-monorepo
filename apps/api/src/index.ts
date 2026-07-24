@@ -26,7 +26,7 @@ app.get("/api/health", (req, res) => {
 app.get("/api/projects", async (req, res) => {
   try {
     const projects = await prisma.project.findMany({
-      where: { published: true },
+      where: { isPublished: true },
       orderBy: { createdAt: "desc" },
     });
 

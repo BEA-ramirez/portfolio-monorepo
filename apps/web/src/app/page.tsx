@@ -4,10 +4,10 @@ import { CiMail } from "react-icons/ci";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 bg-zinc-50 font-sans dark:bg-black">
-      <header className="h-20 border-b border-white flex items-center justify-center gap-20 sticky top-0 z-100 bg-[#0a0a0a]">
+    <div className="font-mono flex flex-col flex-1 bg-[#0a0a0a] ">
+      <header className="text-small h-18 border-b border-white flex items-center justify-center gap-30 sticky top-0 z-100 bg-[#0a0a0a]">
         <h1>BEA.ramirez-dev</h1>
-        <div className="flex items-center justify-center gap-8 ">
+        <div className="flex items-center justify-center gap-12 ">
           <a href="#home">~/home</a>
           <a href="#projects">~/projects</a>
           <a href="#contact">~/contact</a>
@@ -17,7 +17,7 @@ export default function Home() {
       </header>
       {/* Home */}
       <section id="home" className="p-30">
-        <div className="mb-5 flex gap-4 items-center border border-white w-fit p-1 px-3 rounded-3xl">
+        <div className="text-sm mb-5 flex gap-4 items-center border border-white w-fit p-1 px-3 rounded-3xl">
           <div className="rounded-full bg-violet-600 w-2 h-2" />
           <p className="uppercase">available</p>
           <p>-</p>
@@ -30,11 +30,11 @@ export default function Home() {
           <div className="w-5 h-13 bg-white" />
         </div>
 
-        <p className="mb-6">
+        <p className="mb-6 text-small">
           Full-Stack Developer | CS Fresh Graduate | Visayas State University
         </p>
 
-        <p className="mb-8 w-140">
+        <p className="mb-8 w-140 text-small">
           I build full-stack web applications end-to-end: real-time management
           systems, robust backends, and the clean interfaces beneath them.
           Throughout my CS degree, I&apos;ve focused on shipping modern projects
@@ -55,15 +55,24 @@ export default function Home() {
             </button>
           </div>
           <div className="flex items-center gap-2">
-            <button className="px-2 py-2 border border-white rounded-lg">
+            <a
+              href="https://github.com/BEA-ramirez"
+              className="px-2 py-2 border border-white rounded-lg"
+            >
               <FaGithub size={18} />
-            </button>
-            <button className="px-2 py-2 border border-white rounded-lg">
+            </a>
+            <a
+              href="linkedin.com/in/bea-erin-angel-ramirez/"
+              className="px-2 py-2 border border-white rounded-lg"
+            >
               <FaLinkedinIn size={18} />
-            </button>
-            <button className="px-2 py-2 border border-white rounded-lg">
+            </a>
+            <a
+              href="mailto:beaerinangelramirez@gmail.com"
+              className="px-2 py-2 border border-white rounded-lg"
+            >
               <CiMail size={18} />
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -71,15 +80,15 @@ export default function Home() {
       {/* Projects */}
       <section id="projects" className="p-30">
         <div className="flex items-start justify-between">
-          <h6 className="uppercase">
+          <h6 className="uppercase text-small">
             <span>02</span> Featured Work
           </h6>
-          <div className="flex flex-col items-end">
+          <div className="flex flex-col items-end text-small">
             <p>~/projects/featured</p>
             <p>3 of 12 visible</p>
           </div>
         </div>
-        <h2 className="mb-6 text-6xl -mt-4 border-b border-white pb-6">
+        <h2 className="mb-6 text-h1 -mt-4 border-b border-white pb-6">
           Selected projects
         </h2>
         <div className="mb-4 flex items-center justify-between pb-10 border-b border-dashed border-white">
@@ -88,11 +97,11 @@ export default function Home() {
           <ProjectCard />
         </div>
         <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3 text-sm">
+          <div className="flex items-center gap-3 text-small">
             <p>$ ls -al /projects</p>
             <p>{"// list all projects"}</p>
           </div>
-          <button className="px-3 py-2 border border-white rounded-md flex items-center gap-3">
+          <button className="px-3 py-2 border border-white rounded-md flex items-center gap-3 text-body">
             <p>$</p>
             <p>view all</p>
           </button>
@@ -102,15 +111,15 @@ export default function Home() {
       {/* Contact */}
       <section id="contact" className="p-30">
         <div className="flex items-start justify-between">
-          <h6 className="uppercase">
+          <h6 className="uppercase text-small">
             <span>03</span> Get in Touch
           </h6>
-          <div className="flex flex-col items-end">
+          <div className="flex flex-col items-end text-small">
             <p>~/contact</p>
             <p>{"replies in < 24"}</p>
           </div>
         </div>
-        <h2 className="mb-6 text-6xl -mt-4 border-b border-white pb-6">
+        <h2 className="mb-6 text-h1 -mt-4 border-b border-white pb-6">
           Let&apos;s build something.
         </h2>
         <div className="flex justify-between gap-12">
@@ -118,7 +127,7 @@ export default function Home() {
             <div className="border-b border-dashed pb-3  ">
               <a
                 href="mailto:beaerinangelramirez@gmail.com"
-                className="text-2xl tracking-widest"
+                className="text-h3 tracking-wider"
               >
                 beaerinangelramirez@gmail.com →
               </a>
@@ -144,8 +153,8 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-col gap-3">
-              <p className="text-sm">prefer a call?</p>
-              <button className="flex items-center gap-4 border border-white rounded-md px-4 py-2 w-fit">
+              <p className="text-small">prefer a call?</p>
+              <button className="flex items-center gap-4 border border-white rounded-md px-4 py-2 w-fit text-small">
                 <p>$</p>
                 <p>schedule a 30-min call</p>
               </button>
@@ -176,8 +185,8 @@ export default function Home() {
               />
             </div>
             <div className="flex justify-between">
-              <p className="text-sm">protected • rate limited</p>
-              <button className="px-3 py-2 flex items-center gap-3 bg-violet-500 rounded-md">
+              <p className="text-small">protected • rate limited</p>
+              <button className="px-3 py-2 flex items-center gap-3 bg-violet-500 rounded-md text-body">
                 <p>→</p>
                 <p>send message</p>
               </button>

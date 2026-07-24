@@ -7,15 +7,48 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // Storing a hashed password
+  createdAt DateTime @default(now())
+}
+
 model Project {
-  id          String   @id @default(uuid())
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique 
+  thumbnail     String?  
+  
+  // The Taxonomy (Used for fast database filtering)
+  tags          String[] // e.g., ["Next.js", "Tailwind", "Supabase", "React Query"]
+  
+  // Links
+  githubUrl     String?
+  liveUrl       String?
+  
+  // The actual case study (Written in Markdown)
+  content       String   @db.Text 
+  
+  isPublished   Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
   title       String
-  description String
-  techStack   String[] 
-  liveUrl     String?  
-  githubUrl   String?
-  imageUrl    String?
-  published   Boolean  @default(false)
+  slug        String   @unique 
+  coverImage  String?  
+  excerpt     String   
+  
+  // The Taxonomy (Used for fast database filtering)
+  tags        String[] // e.g., ["AI", "Pixel Art", "Career"]
+  
+  // The actual blog post (Written in Markdown)
+  content     String   @db.Text 
+  
+  isPublished Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

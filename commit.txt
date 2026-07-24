@@ -1,1 +1,2 @@
-- Created projects section in home page
+- Updated font style to jetbrains mono
+- Created login page
