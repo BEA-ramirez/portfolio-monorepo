@@ -1,2 +1,4 @@
-- Updated font style to jetbrains mono
-- Created login page
+- Created controller, route, and middleware for login/auth
+- Setup the jwt token, bcrypt, and cookie parser in the backend
+- Connected frontend and backend
+- Login page fully working!
