@@ -1,4 +1,5 @@
-- Created controller, route, and middleware for login/auth
-- Setup the jwt token, bcrypt, and cookie parser in the backend
-- Connected frontend and backend
-- Login page fully working!
+- Created custom editor that can read and display:
+  - markdown
+  - raw html
+  - latex
+  - code and color highlights
