@@ -1,5 +1,2 @@
-- Created custom editor that can read and display:
-  - markdown
-  - raw html
-  - latex
-  - code and color highlights
+- Created sidebar for the admin pages
+- Prepared admin pages: overview, projects, and blog-posts
