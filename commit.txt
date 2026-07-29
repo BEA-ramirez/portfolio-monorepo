@@ -1,2 +1,2 @@
-- Created sidebar for the admin pages
-- Prepared admin pages: overview, projects, and blog-posts
+- Project table in admin
+- Project editor UI

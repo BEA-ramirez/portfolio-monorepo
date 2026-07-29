@@ -7,9 +7,9 @@ import { CgWebsite } from "react-icons/cg";
 import { TbLogout } from "react-icons/tb";
 
 const menuItems = [
-  { name: "Overview", href: "/admin/home", icon: LuHouse },
-  { name: "Projects", href: "/admin/projects", icon: LuFolderOpen },
-  { name: "Blog Posts", href: "/admin/blog-posts", icon: CgWebsite },
+  { name: "Overview", href: "/admin/bea/home", icon: LuHouse },
+  { name: "Projects", href: "/admin/bea/projects", icon: LuFolderOpen },
+  { name: "Blog Posts", href: "/admin/bea/blog-posts", icon: CgWebsite },
 ];
 
 export default function AdminLayout({
@@ -20,10 +20,10 @@ export default function AdminLayout({
   const pathName = usePathname();
 
   return (
-    <div className="flex h-screen w-full bg-white text-gray-900 font-mono">
-      <aside className="flex w-55 flex-col border-r border-gray-200 bg-gray-50/50 px-4 py-6">
-        <div className="mb-8 px-2">
-          <h2 className="text-body uppercase font-semibold ">⌘ Admin Panel</h2>
+    <div className="flex h-screen w-full bg-[#0a0a0a] text-gray-900 font-mono">
+      <aside className="flex w-16 flex-col border-r border-gray-200 bg-gray-50/50 px-3 py-6">
+        <div className="mb-8 px-3">
+          <h2 className="text-lg uppercase font-semibold">⌘</h2>
         </div>
 
         <nav className="flex-1 space-y-1">
@@ -42,7 +42,6 @@ export default function AdminLayout({
                 }`}
               >
                 <Icon size={18} />
-                {item.name}
               </Link>
             );
           })}
@@ -55,7 +54,6 @@ export default function AdminLayout({
             className="flex items-center gap-3 rounded-md px-3 py-2 text-small font-medium text-gray-600 transition-colors hover:bg-red-50 hover:text-red-600"
           >
             <TbLogout size={18} />
-            Logout
           </Link>
         </div>
       </aside>

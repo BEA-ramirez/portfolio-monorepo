@@ -35,7 +35,7 @@ export default function LoginPage() {
         withCredentials: true,
       });
 
-      router.push("/admin/home");
+      router.push("/admin/bea/home");
     } catch (error) {
       console.error("Login failed:", error);
     }
