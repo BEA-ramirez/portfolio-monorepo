@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"; //highlighter and theme
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -10,26 +10,39 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 
+interface CustomEditorProps {
+  initialValue?: string;
+  onChange: (value: string) => void;
+}
+
 interface CodeProps extends ComponentPropsWithoutRef<"code"> {
   inline?: boolean;
   node?: unknown; // use 'unknown' instead of 'any' to make ESLint happy
 }
 
-export default function CustomEditor() {
-  const { register, watch } = useForm({
-    defaultValues: { content: "" },
-  });
+export default function CustomEditor({
+  initialValue = "",
+  onChange,
+}: CustomEditorProps) {
+  const [content, setContent] = useState(initialValue);
+  const [prevInitialValue, setPrevInitialValue] = useState(initialValue);
+  if (initialValue !== prevInitialValue) {
+    setPrevInitialValue(initialValue);
+    setContent(initialValue);
+  }
 
-  const liveMarkdown = watch("content"); // watch content updates so the preview updates on every stroke
-
-  console.log("Live mark down: ", liveMarkdown);
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = e.target.value;
+    setContent(newText); // Updates the right-side preview instantly
+    onChange(newText); // Fires the walkie-talkie to send data to ProjectEditor
+  };
 
   return (
     <div className="grid h-150 grid-cols-2 gap-4 font-mono">
       <div className="flex flex-col">
         <h3 className="mb-2 font-bold">Write (Raw Markdown)</h3>
         <textarea
-          {...register("content")}
+          onChange={handleTextChange}
           className="flex-1 resize-none rounded-md border p-4 font-mono text-sm"
           placeholder="```typescript\nconst hello = 'world';\n```"
         />
@@ -62,7 +75,7 @@ export default function CustomEditor() {
               },
             }}
           >
-            {liveMarkdown}
+            {content}
           </ReactMarkdown>
         </div>
       </div>

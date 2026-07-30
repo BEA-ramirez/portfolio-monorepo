@@ -284,7 +284,15 @@ function ProjectEditor() {
           </Sheet>
         </div>
       </div>
-      <CustomEditor />
+      <CustomEditor
+        initialValue={getValues("content")}
+        onChange={(markdownString) => {
+          setValue("content", markdownString, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+        }}
+      />
     </div>
   );
 }
