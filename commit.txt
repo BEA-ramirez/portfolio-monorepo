@@ -1,4 +1,2 @@
-- Connected forms to the inputs
-- Designed the forms to their actual data types
-- Added uploadthing
-- Controller, router, and frontend uploadbutton for uploadthing created
+- Setup both backend and frontend of the uploadthing
+- Created the uploadbutton from uploadthing

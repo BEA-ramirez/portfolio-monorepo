@@ -1,9 +1,11 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { prisma } from "./db";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes";
+import uploadRoutes from "./routes/upload.routes";
 
 dotenv.config();
 
@@ -17,6 +19,9 @@ app.use(
     credentials: true,
   }),
 );
+
+app.use("/api/uploadthing", uploadRoutes);
+
 app.use(express.json());
 app.use(cookieParser());
 

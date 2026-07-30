@@ -8,7 +8,7 @@ export const uploadRouter = {
     image: { maxFileSize: "4MB", maxFileCount: 1 },
   }).onUploadComplete((data) => {
     // logs on express server when
-    console.log("Upload completed. URL:", data.file.url);
+    console.log("Upload completed. URL:", data.file.ufsUrl);
   }),
 } satisfies FileRouter;
 

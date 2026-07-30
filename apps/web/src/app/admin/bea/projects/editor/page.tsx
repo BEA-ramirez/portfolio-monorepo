@@ -21,6 +21,7 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { UploadButton } from "@/utils/uploadthing";
 
 const projectSchema = z.object({
   id: z.string().optional(),
@@ -160,10 +161,35 @@ function ProjectEditor() {
                 </div>
                 <div className="flex flex-col">
                   <label>Thumbnail</label>
-                  <input
+                  {/* <input
                     type="file"
                     {...register("thumbnail")}
                     className="block w-full mt-3 text-small file:mr-4  file:border-0 file:px-4  file:text file:text-small file:font-semibold hover:file:text-gray-500 file:border-r-2"
+                  /> */}
+
+                  <UploadButton
+                    endpoint="projectThumbnail" // matches the name in core.ts
+                    appearance={{
+                      // 1. Style the button to match your sleek black-and-white theme
+                      button:
+                        "bg-black text-white hover:bg-gray-800 transition-colors rounded-md px-4 py-2 text-sm font-medium focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-black outline-none",
+
+                      // 2. Wrap it tightly so it doesn't take up the whole screen width
+                      container: "w-max flex-col items-start",
+
+                      // 3. Mute the helper text so it doesn't distract from the rest of the form
+                      allowedContent: "text-gray-400 text-xs mt-1",
+                    }}
+                    onClientUploadComplete={(res) => {
+                      // res[0].url is the permanent string you save to your database
+                      setValue("thumbnail", res[0].ufsUrl, {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      });
+                    }}
+                    onUploadError={(error: Error) => {
+                      alert(`ERROR! ${error.message}`);
+                    }}
                   />
                   {errors.thumbnail && (
                     <span className="text-red-500 text-xsmall">
