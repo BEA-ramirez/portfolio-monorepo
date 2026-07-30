@@ -1,2 +1,1 @@
-- Project table in admin
-- Project editor UI
+- Created project editor form UI

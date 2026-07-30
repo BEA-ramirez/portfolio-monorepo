@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { JetBrains_Mono } from "next/font/google";
+import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +32,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${jetbrainsMono.variable} h-full antialiased`}
+      className={cn(
+        "h-full",
+        "antialiased",
+        "font-mono",
+        jetbrainsMono.variable,
+      )}
     >
       <body className="font-mono min-h-full flex flex-col">{children}</body>
     </html>
