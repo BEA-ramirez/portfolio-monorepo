@@ -25,7 +25,7 @@ export default function CustomEditor() {
   console.log("Live mark down: ", liveMarkdown);
 
   return (
-    <div className="grid h-140 grid-cols-2 gap-4 font-mono">
+    <div className="grid h-150 grid-cols-2 gap-4 font-mono">
       <div className="flex flex-col">
         <h3 className="mb-2 font-bold">Write (Raw Markdown)</h3>
         <textarea

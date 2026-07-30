@@ -16,12 +16,58 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm, Controller } from "react-hook-form";
+import axios from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+const projectSchema = z.object({
+  id: z.string().optional(),
+  title: z.string().min(1, "Title is required."),
+  slug: z.string().min(1, "Slug is required."),
+  thumbnail: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  githubUrl: z.string().optional(),
+  liveUrl: z.string().optional(),
+  content: z.string().optional(),
+  isPublished: z.boolean(),
+});
+
+type ProjectFormValues = z.infer<typeof projectSchema>;
 
 function ProjectEditor() {
-  const [tags, setTags] = useState(["Next.js", "Prisma"]);
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    watch,
+    control,
+    clearErrors,
+    formState: { errors, isSubmitting },
+  } = useForm<ProjectFormValues>({
+    resolver: zodResolver(projectSchema),
+    defaultValues: {
+      id: "",
+      title: "",
+      slug: "",
+      thumbnail: "",
+      tags: [],
+      githubUrl: "",
+      liveUrl: "",
+      content: "",
+      isPublished: false,
+    },
+  });
+
+  const currentTags = watch("tags") || [];
 
   const onTagClose = (tag: string) => {
-    setTags(tags.filter((t) => t !== tag));
+    const newTags = currentTags.filter((t) => t !== tag);
+    setValue("tags", newTags, { shouldValidate: true, shouldDirty: true });
   };
 
   const onTagEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -31,11 +77,24 @@ function ProjectEditor() {
       const inputElement = event.currentTarget;
       const newTag = inputElement.value.trim();
 
+      const existingTags = getValues("tags") || []; // what the form currently has, does not re-render
+
       // only add tag if it does not exist in the arr and not empty
-      if (newTag !== "" && !tags.includes(newTag)) {
-        setTags([...tags, newTag]);
+      if (newTag !== "" && !existingTags.includes(newTag)) {
+        setValue("tags", [...existingTags, newTag], {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
         inputElement.value = "";
       }
+    }
+  };
+
+  const onSubmit = async (data: ProjectFormValues) => {
+    try {
+      console.log("Submitting this data to the database:", data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -43,12 +102,19 @@ function ProjectEditor() {
     <div>
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
-        <button>
+        <button
+          onClick={() => router.back()}
+          className="cursor-pointer hover:text-gray-500"
+        >
           <FaArrowLeftLong size={20} />
         </button>
         <h6 className="text-small">Draft: Untitled</h6>
         <div className="flex items-center gap-3">
-          <button>
+          <button
+            onClick={handleSubmit(onSubmit)}
+            disabled={isSubmitting}
+            className="hover:text-gray-500 cursor-pointer"
+          >
             <IoIosSave size={20} />
           </button>
           <button>
@@ -68,15 +134,42 @@ function ProjectEditor() {
               <div className="mt-6 flex flex-col gap-4 mx-5">
                 <div className="flex flex-col">
                   <label>Title</label>
-                  <input type="text" className="border rounded-md px-3 py-2" />
+                  <input
+                    type="text"
+                    {...register("title")}
+                    className="border rounded-md px-3 py-2"
+                  />
+                  {errors.title && (
+                    <span className="text-red-500 text-xsmall">
+                      {errors.title.message}
+                    </span>
+                  )}
                 </div>
                 <div className="flex flex-col">
                   <label>Slug</label>
-                  <input type="text" className="border rounded-md px-3 py-2" />
+                  <input
+                    type="text"
+                    {...register("slug")}
+                    className="border rounded-md px-3 py-2"
+                  />
+                  {errors.slug && (
+                    <span className="text-red-500 text-xsmall">
+                      {errors.slug.message}
+                    </span>
+                  )}
                 </div>
                 <div className="flex flex-col">
                   <label>Thumbnail</label>
-                  <input type="text" className="border rounded-md px-3 py-2" />
+                  <input
+                    type="file"
+                    {...register("thumbnail")}
+                    className="block w-full mt-3 text-small file:mr-4  file:border-0 file:px-4  file:text file:text-small file:font-semibold hover:file:text-gray-500 file:border-r-2"
+                  />
+                  {errors.thumbnail && (
+                    <span className="text-red-500 text-xsmall">
+                      {errors.thumbnail.message}
+                    </span>
+                  )}
                 </div>
                 <div className="flex flex-col">
                   <label>Tags</label>
@@ -87,7 +180,7 @@ function ProjectEditor() {
                       className="border-none mb-4 w-full outline-none"
                     />
                     <div className="flex items-center gap-2 overflow-y-auto">
-                      {tags.map((tag) => (
+                      {currentTags.map((tag) => (
                         <Badge
                           variant="outline"
                           key={tag}
@@ -95,7 +188,10 @@ function ProjectEditor() {
                         >
                           {tag}
                           <button
-                            onClick={() => onTagClose(tag)}
+                            onClick={(e) => {
+                              e.preventDefault(); // prevents accidental form submission when deleting
+                              onTagClose(tag);
+                            }}
                             className="ml-1 cursor-pointer hover:text-gray-500"
                           >
                             <IoIosClose size={18} />
@@ -103,20 +199,58 @@ function ProjectEditor() {
                         </Badge>
                       ))}
                     </div>
+                    {errors.tags && (
+                      <span className="text-red-500 text-xsmall">
+                        {errors.tags.message}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-col">
                   <label>Github URL</label>
-                  <input type="text" className="border rounded-md px-3 py-2" />
+                  <input
+                    type="text"
+                    {...register("githubUrl")}
+                    className="border rounded-md px-3 py-2"
+                  />
+                  {errors.githubUrl && (
+                    <span className="text-red-500 text-xsmall">
+                      {errors.githubUrl.message}
+                    </span>
+                  )}
                 </div>
                 <div className="flex flex-col">
                   <label>Live URL</label>
-                  <input type="text" className="border rounded-md px-3 py-2" />
+                  <input
+                    type="text"
+                    {...register("liveUrl")}
+                    className="border rounded-md px-3 py-2"
+                  />
+                  {errors.liveUrl && (
+                    <span className="text-red-500 text-xsmall">
+                      {errors.liveUrl.message}
+                    </span>
+                  )}
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col mt-4">
                   <div className="flex items-center gap-2">
-                    <Switch id="published" />
-                    <p>Publish</p>
+                    <Controller
+                      name="isPublished"
+                      control={control}
+                      render={({ field }) => (
+                        <Switch
+                          id="published"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      )}
+                    />
+                    <label
+                      htmlFor="published"
+                      className="font-semibold cursor-pointer select-none"
+                    >
+                      Publish
+                    </label>
                   </div>
                 </div>
               </div>

@@ -1,1 +1,4 @@
-- Created project editor form UI
+- Connected forms to the inputs
+- Designed the forms to their actual data types
+- Added uploadthing
+- Controller, router, and frontend uploadbutton for uploadthing created

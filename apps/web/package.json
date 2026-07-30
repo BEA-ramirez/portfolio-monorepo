@@ -9,10 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "api": "workspace:*",
     "@base-ui/react": "^1.6.0",
     "@hookform/resolvers": "^5.4.3",
     "@phosphor-icons/react": "^2.1.10",
     "@repo/shared": "workspace:*",
+    "@uploadthing/react": "^7.3.3",
     "axios": "^1.18.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
