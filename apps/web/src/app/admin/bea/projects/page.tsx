@@ -33,7 +33,7 @@ export default function AdminProjects() {
       {/* Table */}
       <div className="flex justify-end w-200">
         <button
-          onClick={() => router.push("/admin/bea/projects/editor")}
+          onClick={() => router.push("/admin/bea/projects/new")}
           className="flex items-center gap-2 px-3 py-2 bg-violet-500 hover:bg-violet-400 transition-colors rounded-md cursor-pointer"
         >
           <FaPlus size={12} />

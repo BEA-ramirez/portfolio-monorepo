@@ -15,13 +15,19 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { UploadButton } from "@/utils/uploadthing";
+
+interface EditorPageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
 
 const projectSchema = z.object({
   id: z.string().optional(),
@@ -37,8 +43,12 @@ const projectSchema = z.object({
 
 type ProjectFormValues = z.infer<typeof projectSchema>;
 
-function ProjectEditor() {
+function ProjectEditor({ params }: EditorPageProps) {
   const router = useRouter();
+
+  const resolvedParams = use(params);
+  const isNewProject = resolvedParams.id === "new";
+  const projectId = isNewProject ? null : resolvedParams.id;
 
   const {
     register,
@@ -47,6 +57,7 @@ function ProjectEditor() {
     getValues,
     watch,
     control,
+    reset,
     clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<ProjectFormValues>({
@@ -64,7 +75,47 @@ function ProjectEditor() {
     },
   });
 
-  const currentTags = watch("tags") || [];
+  useEffect(() => {
+    if (isNewProject) return; // if new project, dont fetch anything
+
+    const fetchProjectData = async () => {
+      try {
+        // fetch data from express api
+        const response = await axios.get(
+          `http://localhost:4000/api/projects/${projectId}`,
+        );
+        const existingData = response.data;
+
+        reset({
+          id: existingData.id,
+          title: existingData.title,
+          slug: existingData.slug,
+          thumbnail: existingData.thumbnail || "",
+          tags: existingData.tags || [],
+          githubUrl: existingData.githubUrl || "",
+          liveUrl: existingData.liveUrl || "",
+          content: existingData.content || "",
+          isPublished: existingData.isPublished,
+        });
+      } catch (error) {
+        console.error("Failed to load project:", error);
+      }
+    };
+    fetchProjectData();
+  }, [isNewProject, projectId, setValue, reset]);
+
+  const watchedTitle = useWatch({
+    control,
+    name: "title",
+  });
+
+  const watchedTags = useWatch({
+    control,
+    name: "tags",
+  });
+
+  const title = watchedTitle || "Draft: Untitled";
+  const currentTags = watchedTags || [];
 
   const onTagClose = (tag: string) => {
     const newTags = currentTags.filter((t) => t !== tag);
@@ -94,6 +145,27 @@ function ProjectEditor() {
   const onSubmit = async (data: ProjectFormValues) => {
     try {
       console.log("Submitting this data to the database:", data);
+      if (isNewProject) {
+        const { id, ...creationData } = data;
+
+        console.log("Sending POST request to create:", data);
+        const response = await axios.post(
+          "http://localhost:4000/api/projects",
+          creationData,
+        );
+        if (response.data && response.data.id) {
+          router.replace(`/admin/bea/projects/${response.data.id}`); // recalculate the params
+        }
+      } else {
+        console.log(
+          `Sending PUT request to update project ${projectId}:`,
+          data,
+        );
+        await axios.put(
+          `http://localhost:4000/api/projects/${projectId}`,
+          data,
+        );
+      }
     } catch (error) {
       console.error(error);
     }
@@ -109,7 +181,7 @@ function ProjectEditor() {
         >
           <FaArrowLeftLong size={20} />
         </button>
-        <h6 className="text-small">Draft: Untitled</h6>
+        <h6 className="text-small">{title}</h6>
         <div className="flex items-center gap-3">
           <button
             onClick={handleSubmit(onSubmit)}

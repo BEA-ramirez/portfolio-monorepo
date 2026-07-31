@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes";
 import uploadRoutes from "./routes/upload.routes";
+import projectRoutes from "./routes/project.routes";
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ app.get("/api/projects", async (req, res) => {
 
 // routes
 app.use("/api/auth", authRoutes);
+app.use("/api/projects", projectRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

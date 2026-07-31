@@ -1,1 +1,4 @@
-- Custom editor updated to pass data upwards
+- Write code for the backend functions:
+     - get, post, and patch Project
+- Connected backend to frontend
+- Replaced watch to useWatch hook
