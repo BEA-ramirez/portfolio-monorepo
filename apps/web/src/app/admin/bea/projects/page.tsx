@@ -6,6 +6,7 @@ import axios from "axios";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { FiExternalLink } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
+import DeleteModal from "@/components/delete-modal";
 
 interface Project {
   id: string;
@@ -20,6 +21,9 @@ export default function AdminProjects() {
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -35,6 +39,30 @@ export default function AdminProjects() {
     };
     fetchProjects();
   }, []);
+
+  const handleDelete = async (projectId: string) => {
+    setShowDeleteModal(true);
+    setProjectToDelete(projectId);
+  };
+
+  const confirmDelete = async () => {
+    if (!projectToDelete) return;
+    setIsDeleting(true);
+    try {
+      await axios.patch(
+        `http://localhost:4000/api/projects/del/${projectToDelete}`,
+      );
+      setProjects((prev) => prev.filter((p) => p.id !== projectToDelete));
+    } catch (error) {
+      console.error("Error deleting project:", error);
+    } finally {
+      setTimeout(() => {
+        setIsDeleting(false);
+        setProjectToDelete(null);
+        setShowDeleteModal(false);
+      }, 1000);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -130,7 +158,8 @@ export default function AdminProjects() {
 
                       {/* Delete Button */}
                       <button
-                        className="text-gray-400 transition hover:text-red-600"
+                        onClick={() => handleDelete(project.id)}
+                        className="text-gray-400 transition hover:text-red-600 cursor-pointer"
                         title="Delete"
                       >
                         <MdDelete size={18} />
@@ -143,6 +172,15 @@ export default function AdminProjects() {
           </tbody>
         </table>
       </div>
+      <DeleteModal
+        isOpen={showDeleteModal}
+        isDeleting={isDeleting}
+        onClose={() => setShowDeleteModal(false)}
+        onDelete={confirmDelete}
+        message={
+          "Are you sure you want to permanently delete this project? This action cannot be undone."
+        }
+      />
     </div>
   );
 }

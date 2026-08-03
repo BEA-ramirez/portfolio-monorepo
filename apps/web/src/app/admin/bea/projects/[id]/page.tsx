@@ -47,7 +47,7 @@ type ProjectFormValues = z.infer<typeof projectSchema>;
 function ProjectEditor({ params }: EditorPageProps) {
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const resolvedParams = use(params);
   const isNewProject = resolvedParams.id === "new";
@@ -81,6 +81,7 @@ function ProjectEditor({ params }: EditorPageProps) {
     if (isNewProject) return; // if new project, dont fetch anything
 
     const fetchProjectData = async () => {
+      setIsLoading(true);
       try {
         // fetch data from express api
         const response = await axios.get(

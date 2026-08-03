@@ -92,6 +92,7 @@ export const ProjectScalarFieldEnum = {
   liveUrl: 'liveUrl',
   content: 'content',
   isPublished: 'isPublished',
+  isArchived: 'isArchived',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -108,6 +109,7 @@ export const BlogPostScalarFieldEnum = {
   tags: 'tags',
   content: 'content',
   isPublished: 'isPublished',
+  isArchived: 'isArchived',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

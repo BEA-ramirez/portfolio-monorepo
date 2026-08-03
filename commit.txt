@@ -1,4 +1,4 @@
-- Connected all frontend and backend for projects
-- Updated project editor to have loading states
-- Project Editor partially complete
-- Missing prop and backend
+- Included isArchived property to the tables
+- Created custom delete modal component
+- Integrated the delete modal to the projects page
+- Next task: blogs page

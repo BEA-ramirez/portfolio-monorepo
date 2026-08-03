@@ -68,18 +68,38 @@ export const updateProject = async (
   }
 };
 
+// GET : fetch all projects
 export const getAllProjects = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
   try {
     const projects = await prisma.project.findMany({
+      where: { isArchived: false },
       orderBy: { createdAt: "desc" },
     });
 
     res.status(200).json(projects);
   } catch (error) {
     console.error("Error fetching all projects:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// DELETE : delete project by id
+export const deleteProject = async (
+  req: Request<{ id: string }>,
+  res: Response,
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const deletedProject = await prisma.project.update({
+      where: { id },
+      data: { isArchived: true },
+    });
+    res.status(200).json(deletedProject);
+  } catch (error) {
+    console.error("Error deleting project:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
