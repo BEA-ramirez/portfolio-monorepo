@@ -31,21 +31,6 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", message: "API is running!" });
 });
 
-// route to fetch portfolio projects
-app.get("/api/projects", async (req, res) => {
-  try {
-    const projects = await prisma.project.findMany({
-      where: { isPublished: true },
-      orderBy: { createdAt: "desc" },
-    });
-
-    res.json(projects);
-  } catch (error) {
-    console.error("Database error:", error);
-    res.status(500).json({ error: "Failed to fetch projects" });
-  }
-});
-
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);

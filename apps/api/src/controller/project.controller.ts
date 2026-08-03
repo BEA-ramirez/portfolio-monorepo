@@ -67,3 +67,19 @@ export const updateProject = async (
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export const getAllProjects = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const projects = await prisma.project.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+
+    res.status(200).json(projects);
+  } catch (error) {
+    console.error("Error fetching all projects:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

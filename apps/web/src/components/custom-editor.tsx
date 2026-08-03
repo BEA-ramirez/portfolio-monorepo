@@ -45,6 +45,7 @@ export default function CustomEditor({
           onChange={handleTextChange}
           className="flex-1 resize-none rounded-md border p-4 font-mono text-sm"
           placeholder="```typescript\nconst hello = 'world';\n```"
+          value={initialValue}
         />
       </div>
 

@@ -1,4 +1,4 @@
-- Write code for the backend functions:
-     - get, post, and patch Project
-- Connected backend to frontend
-- Replaced watch to useWatch hook
+- Connected all frontend and backend for projects
+- Updated project editor to have loading states
+- Project Editor partially complete
+- Missing prop and backend

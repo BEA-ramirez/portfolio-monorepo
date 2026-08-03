@@ -4,6 +4,7 @@ import { TbArrowAutofitLeftFilled } from "react-icons/tb";
 import { IoIosSave } from "react-icons/io";
 import { HiMiniCog8Tooth } from "react-icons/hi2";
 import { IoIosClose } from "react-icons/io";
+import { MdOutlineDataSaverOff } from "react-icons/md";
 import CustomEditor from "@/components/custom-editor";
 import {
   Sheet,
@@ -45,6 +46,8 @@ type ProjectFormValues = z.infer<typeof projectSchema>;
 
 function ProjectEditor({ params }: EditorPageProps) {
   const router = useRouter();
+  const [showToast, setShowToast] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const resolvedParams = use(params);
   const isNewProject = resolvedParams.id === "new";
@@ -55,7 +58,6 @@ function ProjectEditor({ params }: EditorPageProps) {
     handleSubmit,
     setValue,
     getValues,
-    watch,
     control,
     reset,
     clearErrors,
@@ -99,6 +101,10 @@ function ProjectEditor({ params }: EditorPageProps) {
         });
       } catch (error) {
         console.error("Failed to load project:", error);
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
       }
     };
     fetchProjectData();
@@ -161,18 +167,23 @@ function ProjectEditor({ params }: EditorPageProps) {
           `Sending PUT request to update project ${projectId}:`,
           data,
         );
-        await axios.put(
+        await axios.patch(
           `http://localhost:4000/api/projects/${projectId}`,
           data,
         );
       }
+
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 2500);
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <div>
+    <div className="relative">
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <button
@@ -188,7 +199,14 @@ function ProjectEditor({ params }: EditorPageProps) {
             disabled={isSubmitting}
             className="hover:text-gray-500 cursor-pointer"
           >
-            <IoIosSave size={20} />
+            {isSubmitting ? (
+              <MdOutlineDataSaverOff
+                size={20}
+                className="animate-spin text-violet-500"
+              />
+            ) : (
+              <IoIosSave size={20} />
+            )}
           </button>
           <button>
             <HiMiniCog8Tooth size={20} />
@@ -356,15 +374,32 @@ function ProjectEditor({ params }: EditorPageProps) {
           </Sheet>
         </div>
       </div>
-      <CustomEditor
-        initialValue={getValues("content")}
-        onChange={(markdownString) => {
-          setValue("content", markdownString, {
-            shouldValidate: true,
-            shouldDirty: true,
-          });
-        }}
-      />
+      {isLoading ? (
+        <div className="flex items-center justify-center h-100">
+          <MdOutlineDataSaverOff
+            size={30}
+            className="animate-spin text-violet-500"
+          />
+        </div>
+      ) : (
+        <CustomEditor
+          initialValue={getValues("content")}
+          onChange={(markdownString) => {
+            setValue("content", markdownString, {
+              shouldValidate: true,
+              shouldDirty: true,
+            });
+          }}
+        />
+      )}
+
+      {showToast && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+          <div className="bg-gray-900 text-white px-6 py-3 rounded-lg shadow-xl text-small font-medium animate-in fade-in zoom-in duration-200">
+            ✨ Project saved successfully!
+          </div>
+        </div>
+      )}
     </div>
   );
 }

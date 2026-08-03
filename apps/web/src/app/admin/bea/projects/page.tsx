@@ -1,28 +1,41 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { FiExternalLink } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
 
-const mockProjects = [
-  {
-    id: 1,
-    title: "Car Rental Fleet System",
-    status: "Live",
-    date: "Oct 12, 2025",
-  },
-  {
-    id: 2,
-    title: "Pixel Art Generator",
-    status: "Draft",
-    date: "Oct 05, 2025",
-  },
-  { id: 3, title: "E-Commerce Backend", status: "Live", date: "Sep 28, 2025" },
-];
+interface Project {
+  id: string;
+  title: string;
+  isPublished: boolean;
+  createdAt: string;
+  liveUrl: string | null;
+}
 
 export default function AdminProjects() {
   const router = useRouter();
+
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/projects");
+        console.log("Data from API:", response.data);
+        setProjects(response.data);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -52,58 +65,81 @@ export default function AdminProjects() {
           </thead>
 
           <tbody className="divide-y divide-gray-100">
-            {mockProjects.map((project) => (
-              <tr
-                key={project.id}
-                className="transition-colors hover:bg-gray50 text-xsmall"
-              >
-                <td className="px-4 py-2 font-medium text-gray-900">
-                  {project.title}
-                </td>
-                <td className="px-4 py-2">
-                  {/* Status Badge */}
-                  <span
-                    className={`inline-flex items-center rounded-full px-2 py-1 font-medium ${
-                      project.status === "Live"
-                        ? "bg-green-50 text-green-700 ring-1 ring-green-600/20"
-                        : "bg-yellow-50 text-yellow-800 ring-1 ring-yellow-600/20"
-                    }`}
-                  >
-                    {project.status}
-                  </span>
-                </td>
-                <td className="px-4 py-2 text-gray-500">{project.date}</td>
-                <td className="px-4 py-2">
-                  <div className="flex items-center justify-end gap-3 ">
-                    {/* View Live Link */}
-                    <Link
-                      href="#"
-                      className="text-gray-400 transition hover:text-blue-600"
-                      title="View Live"
-                    >
-                      <FiExternalLink size={18} />
-                    </Link>
-
-                    {/* Edit Button */}
-                    <Link
-                      href={`/admin/projects/${project.id}`}
-                      className="text-gray-400 transition hover:text-gray-900"
-                      title="Edit"
-                    >
-                      <MdEdit size={18} />
-                    </Link>
-
-                    {/* Delete Button */}
-                    <button
-                      className="text-gray-400 transition hover:text-red-600"
-                      title="Delete"
-                    >
-                      <MdDelete size={18} />
-                    </button>
-                  </div>
+            {isLoading ? (
+              <tr>
+                <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
+                  Loading projects...
                 </td>
               </tr>
-            ))}
+            ) : projects.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
+                  No projects found. Click &quot;New Project&quot; to create
+                  one!
+                </td>
+              </tr>
+            ) : (
+              projects.map((project) => (
+                <tr
+                  key={project.id}
+                  className="transition-colors hover:bg-gray50 text-xsmall"
+                >
+                  <td className="px-4 py-2 font-medium text-gray-900">
+                    {project.title}
+                  </td>
+                  <td className="px-4 py-2">
+                    {/* Status Badge */}
+                    <span
+                      className={`inline-flex items-center rounded-full px-2 py-1 font-medium ${
+                        project.isPublished === true
+                          ? "bg-green-50 text-green-700 ring-1 ring-green-600/20"
+                          : "bg-yellow-50 text-yellow-800 ring-1 ring-yellow-600/20"
+                      }`}
+                    >
+                      {project.isPublished === true ? "Live" : "Draft"}
+                    </span>
+                  </td>
+                  <td className="px-4 py-2 text-gray-500">
+                    {project.createdAt}
+                  </td>
+                  <td className="px-4 py-2">
+                    <div className="flex items-center justify-end gap-3 ">
+                      {/* View Live Link */}
+                      <a
+                        href={project.liveUrl || "#"}
+                        target={project.liveUrl ? "_blank" : "_self"}
+                        rel="noreferrer"
+                        className={`transition ${
+                          project.liveUrl
+                            ? "text-gray-400 hover:text-blue-600 cursor-pointer"
+                            : "text-gray-200 cursor-not-allowed"
+                        }`}
+                        title="View Live"
+                      >
+                        <FiExternalLink size={18} />
+                      </a>
+
+                      {/* Edit Button */}
+                      <Link
+                        href={`/admin/bea/projects/${project.id}`}
+                        className="text-gray-400 transition hover:text-gray-900"
+                        title="Edit"
+                      >
+                        <MdEdit size={18} />
+                      </Link>
+
+                      {/* Delete Button */}
+                      <button
+                        className="text-gray-400 transition hover:text-red-600"
+                        title="Delete"
+                      >
+                        <MdDelete size={18} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
