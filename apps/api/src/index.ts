@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes";
 import uploadRoutes from "./routes/upload.routes";
 import projectRoutes from "./routes/project.routes";
+import blogRoutes from "./routes/blog.routes";
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.get("/api/health", (req, res) => {
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
+app.use("/api/blog", blogRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
