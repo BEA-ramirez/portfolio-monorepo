@@ -2,16 +2,18 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/theme-provider";
+import InteractiveDotGrid from "@/components/interactive-dot-grid";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -39,7 +41,18 @@ export default function RootLayout({
         jetbrainsMono.variable,
       )}
     >
-      <body className="font-mono min-h-full flex flex-col">{children}</body>
+      <body className="font-mono min-h-full flex flex-col">
+        <InteractiveDotGrid>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </InteractiveDotGrid>
+      </body>
     </html>
   );
 }

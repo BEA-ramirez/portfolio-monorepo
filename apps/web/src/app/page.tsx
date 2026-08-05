@@ -1,10 +1,11 @@
 import ProjectCard from "@/components/project-card";
+import ThemeToggle from "@/components/theme-toggle";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { CiMail } from "react-icons/ci";
 
 export default function Home() {
   return (
-    <div className="font-mono flex flex-col flex-1 bg-[#0a0a0a] ">
+    <div className="font-mono flex flex-col flex-1  ">
       <header className="text-small h-18 border-b border-white flex items-center justify-center gap-30 sticky top-0 z-100 bg-[#0a0a0a]">
         <h1>BEA.ramirez-dev</h1>
         <div className="flex items-center justify-center gap-12 ">
@@ -14,6 +15,7 @@ export default function Home() {
           <a href="#blog">~/blog</a>
           <a href="#about">~/about</a>
         </div>
+        <ThemeToggle />
       </header>
       {/* Home */}
       <section id="home" className="p-30">
