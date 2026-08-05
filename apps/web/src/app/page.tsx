@@ -1,42 +1,35 @@
+"use client";
 import ProjectCard from "@/components/project-card";
-import ThemeToggle from "@/components/theme-toggle";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
-import { CiMail } from "react-icons/ci";
+import { IoIosMail } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   return (
     <div className="font-mono flex flex-col flex-1  ">
-      <header className="text-small h-18 border-b border-white flex items-center justify-center gap-30 sticky top-0 z-100 bg-[#0a0a0a]">
-        <h1>BEA.ramirez-dev</h1>
-        <div className="flex items-center justify-center gap-12 ">
-          <a href="#home">~/home</a>
-          <a href="#projects">~/projects</a>
-          <a href="#contact">~/contact</a>
-          <a href="#blog">~/blog</a>
-          <a href="#about">~/about</a>
-        </div>
-        <ThemeToggle />
-      </header>
       {/* Home */}
       <section id="home" className="p-30">
-        <div className="text-sm mb-5 flex gap-4 items-center border border-white w-fit p-1 px-3 rounded-3xl">
-          <div className="rounded-full bg-violet-600 w-2 h-2" />
+        <div className="bg-card text-sm text-muted-foreground mb-5 flex gap-4 items-center border border-border w-fit p-1 px-3 rounded-3xl">
+          <div className="rounded-full bg-accent w-2 h-2" />
           <p className="uppercase">available</p>
           <p>-</p>
           <p>for work</p>
         </div>
 
-        <h2 className="mb-2 text-6xl font-bold">$ hi, I&apos;m</h2>
-        <div className="mb-5 flex items-center gap-2">
-          <h2 className="text-6xl font-bold">BEA Ramirez</h2>
-          <div className="w-5 h-13 bg-white" />
+        <h2 className="mb-2 text-6xl font-bold text-foreground">
+          $ hi, I&apos;m
+        </h2>
+        <div className="mb-5 flex items-center gap-2 ">
+          <h2 className="text-6xl font-bold text-foreground">BEA Ramirez</h2>
+          <div className="w-5 h-13 bg-foreground" />
         </div>
 
-        <p className="mb-6 text-small">
+        <p className="mb-6 text-small text-accent font-semibold">
           Full-Stack Developer | CS Fresh Graduate | Visayas State University
         </p>
 
-        <p className="mb-8 w-140 text-small">
+        <p className="mb-8 w-140 text-small text-foreground">
           I build full-stack web applications end-to-end: real-time management
           systems, robust backends, and the clean interfaces beneath them.
           Throughout my CS degree, I&apos;ve focused on shipping modern projects
@@ -47,11 +40,11 @@ export default function Home() {
         </p>
         <div className="flex items-center justify-between w-130">
           <div className="flex items-center gap-3">
-            <button className="px-3 py-2 text-sm flex items-center gap-3 bg-violet-500 rounded-lg">
+            <button className="px-3 py-2 text-sm flex items-center gap-3 bg-accent hover:bg-secondary-accent text-foreground rounded-lg cursor-pointer">
               <p>→</p>
               <p>get in touch</p>
             </button>
-            <button className="px-3 py-2 text-sm flex items-center gap-3 border border-white rounded-lg">
+            <button className="px-3 py-2 text-sm text-foreground bg-card hover:text-accent hover:border-accent flex items-center gap-3 border border-border rounded-lg cursor-pointer">
               <p>$</p>
               <p>ls projects/</p>
             </button>
@@ -59,51 +52,63 @@ export default function Home() {
           <div className="flex items-center gap-2">
             <a
               href="https://github.com/BEA-ramirez"
-              className="px-2 py-2 border border-white rounded-lg"
+              className="group hover:border-accent px-2 py-2 border border-border rounded-lg bg-background"
             >
-              <FaGithub size={18} />
+              <FaGithub
+                size={18}
+                className="text-foreground group-hover:text-accent"
+              />
             </a>
             <a
-              href="linkedin.com/in/bea-erin-angel-ramirez/"
-              className="px-2 py-2 border border-white rounded-lg"
+              href="https://www.linkedin.com/in/bea-erin-angel-ramirez/"
+              className="group hover:border-accent px-2 py-2 border border-border rounded-lg bg-background"
             >
-              <FaLinkedinIn size={18} />
+              <FaLinkedinIn
+                size={18}
+                className="text-foreground group-hover:text-accent"
+              />
             </a>
             <a
               href="mailto:beaerinangelramirez@gmail.com"
-              className="px-2 py-2 border border-white rounded-lg"
+              className="group hover:border-accent px-2 py-2 border border-border rounded-lg bg-background"
             >
-              <CiMail size={18} />
+              <IoIosMail
+                size={18}
+                className="text-foreground group-hover:text-accent"
+              />
             </a>
           </div>
         </div>
       </section>
 
       {/* Projects */}
-      <section id="projects" className="p-30">
+      <section id="projects" className="p-30 text-foreground">
         <div className="flex items-start justify-between">
-          <h6 className="uppercase text-small">
+          <h6 className="uppercase text-small text-accent font-bold">
             <span>02</span> Featured Work
           </h6>
-          <div className="flex flex-col items-end text-small">
+          <div className="flex flex-col items-end text-small text-accent font-semibold">
             <p>~/projects/featured</p>
             <p>3 of 12 visible</p>
           </div>
         </div>
-        <h2 className="mb-6 text-h1 -mt-4 border-b border-white pb-6">
+        <h2 className="mb-6 text-h1 -mt-4 border-b border-border pb-6">
           Selected projects
         </h2>
-        <div className="mb-4 flex items-center justify-between pb-10 border-b border-dashed border-white">
+        <div className="mb-4 flex items-center justify-between pb-10 border-b border-dashed border-border">
           <ProjectCard />
           <ProjectCard />
           <ProjectCard />
         </div>
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3 text-small">
+        <div className="flex items-start justify-between ">
+          <div className="flex items-center gap-3 text-small text-accent font-semibold">
             <p>$ ls -al /projects</p>
             <p>{"// list all projects"}</p>
           </div>
-          <button className="px-3 py-2 border border-white rounded-md flex items-center gap-3 text-body">
+          <button
+            onClick={() => router.push("/projects")}
+            className="px-3 py-2 bg-background hover:text-accent hover:border-accent cursor-pointer border border-border rounded-md flex items-center gap-3 text-body"
+          >
             <p>$</p>
             <p>view all</p>
           </button>
@@ -111,17 +116,17 @@ export default function Home() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="p-30">
+      <section id="contact" className="p-30 pb-10 text-foreground ">
         <div className="flex items-start justify-between">
-          <h6 className="uppercase text-small">
+          <h6 className="uppercase text-small text-accent font-bold">
             <span>03</span> Get in Touch
           </h6>
-          <div className="flex flex-col items-end text-small">
+          <div className="flex flex-col items-end text-small text-accent font-semibold">
             <p>~/contact</p>
             <p>{"replies in < 24"}</p>
           </div>
         </div>
-        <h2 className="mb-6 text-h1 -mt-4 border-b border-white pb-6">
+        <h2 className="mb-6 text-h1 -mt-4 border-b border-border pb-6">
           Let&apos;s build something.
         </h2>
         <div className="flex justify-between gap-12">
@@ -129,66 +134,78 @@ export default function Home() {
             <div className="border-b border-dashed pb-3  ">
               <a
                 href="mailto:beaerinangelramirez@gmail.com"
-                className="text-h3 tracking-wider"
+                className="text-h3 tracking-wider hover:font-semibold hover:text-accent transition-all duration-300"
               >
                 beaerinangelramirez@gmail.com →
               </a>
             </div>
             <div className="mt-8 mb-12 flex flex-col gap-1">
               <p className="text-sm mb-1">
-                <span className="text-white/50">location</span> Philippines,
-                Ormoc City
+                <span className="text-accent font-medium">location</span>{" "}
+                Philippines, Ormoc City
               </p>
               <p className="text-sm">
-                <span className="text-white/50">status</span> CS fresh grad
+                <span className="text-accent font-medium">status</span> CS fresh
+                grad
               </p>
               <p className="text-sm">
-                <span className="text-white/50">stack</span> TS / React /
-                Postgres
+                <span className="text-accent font-medium">stack</span> TS /
+                React / Postgres
               </p>
               <p className="text-sm">
-                <span className="text-white/50">github</span> @BEA-ramirez
+                <span className="text-accent font-medium">github</span>{" "}
+                @BEA-ramirez
               </p>
               <p className="text-sm">
-                <span className="text-white/50">linkedin</span>{" "}
+                <span className="text-accent font-medium">linkedin</span>{" "}
                 in/bea-erin-angel-ramirez/
               </p>
             </div>
             <div className="flex flex-col gap-3">
               <p className="text-small">prefer a call?</p>
-              <button className="flex items-center gap-4 border border-white rounded-md px-4 py-2 w-fit text-small">
+              <button className="group bg-card hover:font-semibold flex items-center gap-4 border border-border rounded-md px-4 py-2 w-fit text-small cursor-pointer hover:border-accent">
                 <p>$</p>
-                <p>schedule a 30-min call</p>
+                <p className="group-hover:text-accent">
+                  schedule a 30-min call
+                </p>
               </button>
             </div>
           </div>
-          <div className="flex-1 flex flex-col gap-4 border border-white bg-[#111] rounded-xl p-5">
+          <div className="flex-1 flex flex-col gap-6 border border-border bg-card rounded-xl p-5 text-foreground">
             <div className="flex flex-col gap-1">
-              <label className="uppercase text-sm">
-                name <span className="text-violet-600">*</span>
+              <label className="uppercase text-small">
+                name <span className="text-accent">*</span>
               </label>
-              <input type="text" className="border px-4 py-3 rounded-md" />
+              <input
+                type="text"
+                className="border px-4 py-3 rounded-md text-small"
+              />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="uppercase text-sm">
-                email <span className="text-violet-600">*</span>
+              <label className="uppercase text-small">
+                email <span className="text-accent">*</span>
               </label>
-              <input type="email" className="border px-4 py-3 rounded-md" />
+              <input
+                type="email"
+                className="border px-4 py-3 rounded-md text-small"
+              />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="uppercase text-sm">
-                message <span className="text-violet-600">*</span>
+              <label className="uppercase text-small">
+                message <span className="text-accent">*</span>
               </label>
               <textarea
                 name="message"
                 rows={3}
                 placeholder="Type your message here..."
-                className="border px-4 py-3 rounded-md"
+                className="border px-4 py-3 rounded-md text-small"
               />
             </div>
             <div className="flex justify-between">
-              <p className="text-small">protected • rate limited</p>
-              <button className="px-3 py-2 flex items-center gap-3 bg-violet-500 rounded-md text-body">
+              <p className="text-small text-accent font-semibold -mt-4">
+                protected • rate limited
+              </p>
+              <button className="px-3 py-2 flex items-center gap-3 bg-accent hover:bg-secondary-accent rounded-md text-small cursor-pointer">
                 <p>→</p>
                 <p>send message</p>
               </button>

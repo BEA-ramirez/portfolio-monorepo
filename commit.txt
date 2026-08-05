@@ -1,4 +1,1 @@
-- Created blog post admin pages
-- Wrote backend for blog post api routes
-- Connected frontend and backend for blog post admin pages
-- Similar version to the project editor: blog post editor
+- Updated main page for light and dark mode

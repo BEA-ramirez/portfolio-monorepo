@@ -24,14 +24,14 @@ export default function InteractiveDotGrid({
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen w-full bg-background overflow-hidden"
+      className="relative min-h-screen w-full bg-background"
     >
       {/* LAYER 1: gray grid */}
       <div
         className="pointer-events-none fixed inset-0 z-0 opacity-50"
         style={{
           // creates a repeating 1.5px dot every 30px
-          backgroundImage: `radial-gradient(circle at center, #4b5563 1.55px, transparent 1.55px)`,
+          backgroundImage: `radial-gradient(circle at center, #212327 1.55px, transparent 1.55px)`,
           backgroundSize: "30px 30px",
         }}
       />

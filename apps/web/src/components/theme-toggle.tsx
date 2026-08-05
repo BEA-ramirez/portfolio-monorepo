@@ -26,7 +26,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 rounded-md bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 transition-colors cursor-pointer"
+      className="p-2 rounded-md text-foreground hover:text-accent transition-colors cursor-pointer"
       title="Toggle Dark Mode"
     >
       {theme === "dark" ? <FiSun size={20} /> : <FiMoon size={20} />}
