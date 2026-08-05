@@ -33,6 +33,10 @@ interface EditorPageProps {
 const projectSchema = z.object({
   id: z.string().optional(),
   title: z.string().min(1, "Title is required."),
+  description: z.string().optional(),
+  role: z.string().optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
   slug: z.string().min(1, "Slug is required."),
   thumbnail: z.string().optional(),
   tags: z.array(z.string()).optional(),
@@ -67,6 +71,10 @@ function ProjectEditor({ params }: EditorPageProps) {
     defaultValues: {
       id: "",
       title: "",
+      description: "",
+      role: "",
+      startDate: "",
+      endDate: "",
       slug: "",
       thumbnail: "",
       tags: [],
@@ -92,6 +100,10 @@ function ProjectEditor({ params }: EditorPageProps) {
         reset({
           id: existingData.id,
           title: existingData.title,
+          description: existingData.description,
+          role: existingData.role,
+          startDate: existingData.startDate,
+          endDate: existingData.endDate,
           slug: existingData.slug,
           thumbnail: existingData.thumbnail || "",
           tags: existingData.tags || [],
@@ -216,7 +228,7 @@ function ProjectEditor({ params }: EditorPageProps) {
             <SheetTrigger className="hover:text-gray-500 cursor-pointer">
               <TbArrowAutofitLeftFilled size={20} />
             </SheetTrigger>
-            <SheetContent className="w-100 sm:w-135">
+            <SheetContent className="w-100 sm:w-135 overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>Project Details</SheetTitle>
                 <SheetDescription>
@@ -238,6 +250,19 @@ function ProjectEditor({ params }: EditorPageProps) {
                   )}
                 </div>
                 <div className="flex flex-col">
+                  <label>Description</label>
+                  <textarea
+                    rows={4}
+                    {...register("description")}
+                    className="border rounded-md px-3 py-2"
+                  />
+                  {errors.description && (
+                    <span className="text-red-500 text-xsmall">
+                      {errors.description.message}
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-col">
                   <label>Slug</label>
                   <input
                     type="text"
@@ -251,43 +276,45 @@ function ProjectEditor({ params }: EditorPageProps) {
                   )}
                 </div>
                 <div className="flex flex-col">
-                  <label>Thumbnail</label>
-                  {/* <input
-                    type="file"
-                    {...register("thumbnail")}
-                    className="block w-full mt-3 text-small file:mr-4  file:border-0 file:px-4  file:text file:text-small file:font-semibold hover:file:text-gray-500 file:border-r-2"
-                  /> */}
-
-                  <UploadButton
-                    endpoint="projectThumbnail" // matches the name in core.ts
-                    appearance={{
-                      // 1. Style the button to match your sleek black-and-white theme
-                      button:
-                        "bg-black text-white hover:bg-gray-800 transition-colors rounded-md px-4 py-2 text-sm font-medium focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-black outline-none",
-
-                      // 2. Wrap it tightly so it doesn't take up the whole screen width
-                      container: "w-max flex-col items-start",
-
-                      // 3. Mute the helper text so it doesn't distract from the rest of the form
-                      allowedContent: "text-gray-400 text-xs mt-1",
-                    }}
-                    onClientUploadComplete={(res) => {
-                      // res[0].url is the permanent string you save to your database
-                      setValue("thumbnail", res[0].ufsUrl, {
-                        shouldValidate: true,
-                        shouldDirty: true,
-                      });
-                    }}
-                    onUploadError={(error: Error) => {
-                      alert(`ERROR! ${error.message}`);
-                    }}
+                  <label>Role</label>
+                  <input
+                    type="text"
+                    {...register("role")}
+                    className="border rounded-md px-3 py-2"
                   />
-                  {errors.thumbnail && (
+                  {errors.role && (
                     <span className="text-red-500 text-xsmall">
-                      {errors.thumbnail.message}
+                      {errors.role.message}
                     </span>
                   )}
                 </div>
+                <div className="flex flex-col">
+                  <label>Start Date</label>
+                  <input
+                    type="date"
+                    {...register("startDate")}
+                    className="border rounded-md px-3 py-2"
+                  />
+                  {errors.startDate && (
+                    <span className="text-red-500 text-xsmall">
+                      {errors.startDate.message}
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  <label>End Date</label>
+                  <input
+                    type="date"
+                    {...register("endDate")}
+                    className="border rounded-md px-3 py-2"
+                  />
+                  {errors.endDate && (
+                    <span className="text-red-500 text-xsmall">
+                      {errors.endDate.message}
+                    </span>
+                  )}
+                </div>
+
                 <div className="flex flex-col">
                   <label>Tags</label>
                   <div className="border rounded-md px-3 py-2">
@@ -349,7 +376,39 @@ function ProjectEditor({ params }: EditorPageProps) {
                     </span>
                   )}
                 </div>
-                <div className="flex flex-col mt-4">
+                <div className="flex flex-col">
+                  <label>Thumbnail</label>
+                  <UploadButton
+                    endpoint="projectThumbnail" // matches the name in core.ts
+                    appearance={{
+                      // 1. Style the button to match your sleek black-and-white theme
+                      button:
+                        "bg-black text-white hover:bg-gray-800 transition-colors rounded-md px-4 py-2 text-sm font-medium focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-black outline-none",
+
+                      // 2. Wrap it tightly so it doesn't take up the whole screen width
+                      container: "w-max flex-col items-start",
+
+                      // 3. Mute the helper text so it doesn't distract from the rest of the form
+                      allowedContent: "text-gray-400 text-xs mt-1",
+                    }}
+                    onClientUploadComplete={(res) => {
+                      // res[0].url is the permanent string you save to your database
+                      setValue("thumbnail", res[0].ufsUrl, {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      });
+                    }}
+                    onUploadError={(error: Error) => {
+                      alert(`ERROR! ${error.message}`);
+                    }}
+                  />
+                  {errors.thumbnail && (
+                    <span className="text-red-500 text-xsmall">
+                      {errors.thumbnail.message}
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-col mt-4 mb-8">
                   <div className="flex items-center gap-2">
                     <Controller
                       name="isPublished"

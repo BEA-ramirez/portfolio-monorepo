@@ -22,6 +22,11 @@ model Project {
   
   // The Taxonomy (Used for fast database filtering)
   tags          String[] // e.g., ["Next.js", "Tailwind", "Supabase", "React Query"]
+
+  description   String?  @db.Text // Short summary for the project card
+  role          String?           // e.g., "Full-Stack Developer", "Lead Engineer"
+  startDate     String?
+  endDate       String?
   
   // Links
   githubUrl     String?

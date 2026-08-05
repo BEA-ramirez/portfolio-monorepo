@@ -1,8 +1,26 @@
+"use client";
 import ThemeToggle from "@/components/theme-toggle";
 import Link from "next/link";
 import { CiSearch } from "react-icons/ci";
+import { useState } from "react";
+
+interface Project {
+  id: string;
+  title: string;
+  description?: string | null;
+  role?: string | null;
+  startDate?: string | Date | null;
+  endDate?: string | Date | null;
+  liveUrl: string | null;
+  githubUrl: string | null;
+  slug: string;
+  content: string;
+}
 
 export default function ProjectsPage() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <div className="font-mono flex flex-col flex-1 p-30">
       <h6 className="text-xsmall text-accent mb-4">~ / projects / 9 entries</h6>
@@ -23,6 +41,8 @@ export default function ProjectsPage() {
           />
         </div>
       </div>
+      {/* Projects List */}
+      <section></section>
     </div>
   );
 }

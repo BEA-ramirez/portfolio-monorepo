@@ -1,1 +1,4 @@
-- Updated main page for light and dark mode
+- Updated properties of project model
+- Updated project editor for the new fields
+- Started the public projects list
+- Grouped frontend folders accordingly (so that there's no overlapping layout)

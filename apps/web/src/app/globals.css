@@ -109,4 +109,7 @@
   html {
     @apply font-mono;
   }
+  .dark {
+    color-scheme: dark;
+  }
 }
