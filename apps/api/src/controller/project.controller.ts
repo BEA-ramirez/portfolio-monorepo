@@ -86,6 +86,40 @@ export const getAllProjects = async (
   }
 };
 
+//GET : fetch all live projects
+export const getAllLiveProjects = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const projects = await prisma.project.findMany({
+      where: { isArchived: false, isPublished: true },
+      orderBy: { createdAt: "desc" },
+    });
+    res.status(200).json(projects);
+  } catch (error) {
+    console.error("Error fetching live projects:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+//GET : fetch project by slug
+export const getProjectBySlug = async (
+  req: Request<{ slug: string }>,
+  res: Response,
+): Promise<void> => {
+  const { slug } = req.params;
+  try {
+    const project = await prisma.project.findUnique({
+      where: { slug },
+    });
+    res.status(200).json(project);
+  } catch (error) {
+    console.error("Error fetching project by slug:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 // DELETE : delete project by id
 export const deleteProject = async (
   req: Request<{ id: string }>,

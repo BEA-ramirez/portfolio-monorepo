@@ -49,7 +49,7 @@ export default function AdminBlogPosts() {
     setIsDeleting(true);
     try {
       await axios.patch(
-        `http://localhost:4000/api/blog/del/${blogPostToDelete}`,
+        `http://localhost:4000/api/blog/${blogPostToDelete}/del`,
       );
       setBlogs((prev) => prev.filter((b) => b.id !== blogPostToDelete));
     } catch (error) {

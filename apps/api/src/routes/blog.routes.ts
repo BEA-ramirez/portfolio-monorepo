@@ -17,6 +17,6 @@ router.post("/", createBlogPost);
 
 router.patch("/:id", updateBlogPost);
 
-router.patch("/del/:id", deleteBlogPost);
+router.patch("/:id/del", deleteBlogPost);
 
 export default router;

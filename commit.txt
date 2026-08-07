@@ -1,4 +1,4 @@
-- Updated properties of project model
-- Updated project editor for the new fields
-- Started the public projects list
-- Grouped frontend folders accordingly (so that there's no overlapping layout)
+- Projects list created
+- Added rehype-slug to custom editor (for ids)
+- toc extractor
+- date formatter in projects page

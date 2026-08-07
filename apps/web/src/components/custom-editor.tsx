@@ -8,6 +8,7 @@ import type { ComponentPropsWithoutRef } from "react";
 import rehypeRaw from "rehype-raw";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import rehypeSlug from "rehype-slug";
 import "katex/dist/katex.min.css";
 
 interface CustomEditorProps {
@@ -54,7 +55,7 @@ export default function CustomEditor({
         <div className="prose prose-sm max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkMath]}
-            rehypePlugins={[rehypeRaw, rehypeKatex]}
+            rehypePlugins={[rehypeRaw, rehypeKatex, rehypeSlug]}
             components={{
               code({ node, inline, className, children, ...props }: CodeProps) {
                 const match = /language-(\w+)/.exec(className || "");

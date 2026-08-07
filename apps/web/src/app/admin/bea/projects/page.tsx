@@ -50,7 +50,7 @@ export default function AdminProjects() {
     setIsDeleting(true);
     try {
       await axios.patch(
-        `http://localhost:4000/api/projects/del/${projectToDelete}`,
+        `http://localhost:4000/api/projects/${projectToDelete}/del`,
       );
       setProjects((prev) => prev.filter((p) => p.id !== projectToDelete));
     } catch (error) {
