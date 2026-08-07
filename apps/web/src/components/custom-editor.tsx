@@ -16,7 +16,7 @@ interface CustomEditorProps {
   onChange: (value: string) => void;
 }
 
-interface CodeProps extends ComponentPropsWithoutRef<"code"> {
+export interface CodeProps extends ComponentPropsWithoutRef<"code"> {
   inline?: boolean;
   node?: unknown; // use 'unknown' instead of 'any' to make ESLint happy
 }

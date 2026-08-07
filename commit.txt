@@ -1,4 +1,1 @@
-- Projects list created
-- Added rehype-slug to custom editor (for ids)
-- toc extractor
-- date formatter in projects page
+- Project details page created

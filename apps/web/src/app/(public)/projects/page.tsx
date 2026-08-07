@@ -61,15 +61,15 @@ export default function ProjectsPage() {
         </div>
       </div>
       {/* Projects List */}
-      {projects.length === 0 ? (
-        <div>
-          <p>No projects found.</p>
-        </div>
-      ) : isLoading ? (
+      {isLoading ? (
         <div>
           <p className="px-4 py-8 text-center text-gray-500">
             Loading projects...
           </p>
+        </div>
+      ) : projects.length === 0 ? (
+        <div>
+          <p>No projects found.</p>
         </div>
       ) : (
         projects.map((project) => (

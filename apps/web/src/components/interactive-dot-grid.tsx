@@ -27,8 +27,17 @@ export default function InteractiveDotGrid({
       className="relative min-h-screen w-full bg-background"
     >
       {/* LAYER 1: gray grid */}
+
       <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-50"
+        className="pointer-events-none fixed inset-0 z-0 opacity-50 dark:hidden"
+        style={{
+          backgroundImage: `radial-gradient(circle at center, #949dab 1.55px, transparent 1.55px)`,
+          backgroundSize: "30px 30px",
+        }}
+      />
+
+      <div
+        className="pointer-events-none hidden fixed inset-0 z-0 opacity-50 dark:block"
         style={{
           // creates a repeating 1.5px dot every 30px
           backgroundImage: `radial-gradient(circle at center, #212327 1.55px, transparent 1.55px)`,
@@ -51,7 +60,9 @@ export default function InteractiveDotGrid({
       />
 
       {/* LAYER 3: content */}
-      <div className="relative z-10 w-full h-full text-white">{children}</div>
+      <div className="relative z-10 w-full h-full text-foreground">
+        {children}
+      </div>
     </div>
   );
 }

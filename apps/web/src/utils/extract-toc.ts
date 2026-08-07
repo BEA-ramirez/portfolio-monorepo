@@ -4,7 +4,10 @@ export interface TocItem {
   level: number;
 }
 
-export function extractToc(markdown: string): TocItem[] {
+export function extractToc(
+  markdown: string | null | undefined,
+): TocItem[] | null {
+  if (!markdown) return null;
   // matches ## or ### followed by text
   const headingRegex = /^(#{2,3})\s+(.+)$/gm;
   const toc: TocItem[] = [];
