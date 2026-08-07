@@ -93,7 +93,7 @@ function ProjectEditor({ params }: EditorPageProps) {
       try {
         // fetch data from express api
         const response = await axios.get(
-          `http://localhost:4000/api/projects/${projectId}`,
+          `https://bea-ramirez-portfolio-api.vercel.app/api/projects/${projectId}`,
         );
         const existingData = response.data;
 
@@ -169,7 +169,7 @@ function ProjectEditor({ params }: EditorPageProps) {
 
         console.log("Sending POST request to create:", data);
         const response = await axios.post(
-          "http://localhost:4000/api/projects",
+          "https://bea-ramirez-portfolio-api.vercel.app/api/projects",
           creationData,
         );
         if (response.data && response.data.id) {
@@ -181,7 +181,7 @@ function ProjectEditor({ params }: EditorPageProps) {
           data,
         );
         await axios.patch(
-          `http://localhost:4000/api/projects/${projectId}`,
+          `https://bea-ramirez-portfolio-api.vercel.app/api/projects/${projectId}`,
           data,
         );
       }

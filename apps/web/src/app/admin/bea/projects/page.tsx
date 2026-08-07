@@ -28,7 +28,9 @@ export default function AdminProjects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/projects");
+        const response = await axios.get(
+          "https://bea-ramirez-portfolio-api.vercel.app/api/projects",
+        );
         console.log("Data from API:", response.data);
         setProjects(response.data);
       } catch (error) {
@@ -50,7 +52,7 @@ export default function AdminProjects() {
     setIsDeleting(true);
     try {
       await axios.patch(
-        `http://localhost:4000/api/projects/${projectToDelete}/del`,
+        `https://bea-ramirez-portfolio-api.vercel.app/api/projects/${projectToDelete}/del`,
       );
       setProjects((prev) => prev.filter((p) => p.id !== projectToDelete));
     } catch (error) {

@@ -83,7 +83,7 @@ function BlogPostEditor({ params }: EditorPageProps) {
       try {
         // fetch data from express api
         const response = await axios.get(
-          `http://localhost:4000/api/blog/${blogPostId}`,
+          `https://bea-ramirez-portfolio-api.vercel.app/api/blog/${blogPostId}`,
         );
         const existingData = response.data;
 
@@ -154,7 +154,7 @@ function BlogPostEditor({ params }: EditorPageProps) {
 
         console.log("Sending POST request to create:", data);
         const response = await axios.post(
-          "http://localhost:4000/api/blog",
+          "https://bea-ramirez-portfolio-api.vercel.app/api/blog",
           creationData,
         );
         if (response.data && response.data.id) {
@@ -165,7 +165,10 @@ function BlogPostEditor({ params }: EditorPageProps) {
           `Sending PUT request to update blog post ${blogPostId}:`,
           data,
         );
-        await axios.patch(`http://localhost:4000/api/blog/${blogPostId}`, data);
+        await axios.patch(
+          `https://bea-ramirez-portfolio-api.vercel.app/api/blog/${blogPostId}`,
+          data,
+        );
       }
 
       setShowToast(true);
