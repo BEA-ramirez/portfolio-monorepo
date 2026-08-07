@@ -17,7 +17,7 @@ const app = express();
 // middleware to allow nextjs frontend to talk to this api
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
     credentials: true,
   }),
 );
@@ -37,7 +37,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/blog", blogRoutes);
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 4000;
+  app.listen(PORT, () => {
+    console.log(`Local server is running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;
