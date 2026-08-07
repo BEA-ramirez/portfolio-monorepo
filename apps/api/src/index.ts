@@ -4,10 +4,10 @@ import cors from "cors";
 import { prisma } from "./db";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import authRoutes from "./routes/auth.routes";
-import uploadRoutes from "./routes/upload.routes";
-import projectRoutes from "./routes/project.routes";
-import blogRoutes from "./routes/blog.routes";
+import authRoutes from "./routes/auth.routes.js";
+import uploadRoutes from "./routes/upload.routes.js";
+import projectRoutes from "./routes/project.routes.js";
+import blogRoutes from "./routes/blog.routes.js";
 
 dotenv.config();
 

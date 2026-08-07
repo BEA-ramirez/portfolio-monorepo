@@ -5,7 +5,7 @@ import {
   updateBlogPost,
   getAllBlogPosts,
   deleteBlogPost,
-} from "../controller/blog.controller";
+} from "../controller/blog.controller.js";
 
 const router = Router();
 

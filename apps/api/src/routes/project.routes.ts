@@ -7,7 +7,7 @@ import {
   getAllLiveProjects,
   getProjectBySlug,
   deleteProject,
-} from "../controller/project.controller";
+} from "../controller/project.controller.js";
 
 const router = Router();
 router.get("/", getAllProjects);
