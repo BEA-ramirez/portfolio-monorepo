@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { prisma } from "../db";
+import { prisma } from "../db.js";
 
 // GET : fetch single blog post using id
 export const getBlogById = async (

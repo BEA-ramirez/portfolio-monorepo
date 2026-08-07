@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { prisma } from "../db";
+import { prisma } from "../db.js";
 
 // GET : fetch single project using id
 export const getProjectById = async (
