@@ -27,7 +27,7 @@ export default function ProjectsPage() {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "https://bea-ramirez-portfolio-api.vercel.app/api/projects/live",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/projects/live`,
         );
         console.log("Data from API:", response.data);
         setProjects(response.data);

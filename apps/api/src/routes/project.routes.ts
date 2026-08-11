@@ -8,6 +8,7 @@ import {
   getProjectBySlug,
   deleteProject,
 } from "../controller/project.controller.js";
+import { authenticateToken } from "../middleware/auth.middleware.js";
 
 const router = Router();
 router.get("/", getAllProjects);
@@ -18,10 +19,10 @@ router.get("/:id", getProjectById);
 
 router.get("/:slug/details", getProjectBySlug);
 
-router.post("/", createProject);
+router.post("/", authenticateToken, createProject);
 
-router.patch("/:id", updateProject);
+router.patch("/:id", authenticateToken, updateProject);
 
-router.patch("/:id/del", deleteProject);
+router.patch("/:id/del", authenticateToken, deleteProject);
 
 export default router;

@@ -28,7 +28,7 @@ export default function AdminBlogPosts() {
     const fetchBlogs = async () => {
       try {
         const response = await axios.get(
-          "https://bea-ramirez-portfolio-api.vercel.app/api/blog",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/blog`,
         );
         console.log("Data from API:", response.data);
         setBlogs(response.data);
@@ -51,7 +51,7 @@ export default function AdminBlogPosts() {
     setIsDeleting(true);
     try {
       await axios.patch(
-        `https://bea-ramirez-portfolio-api.vercel.app/api/blog/${blogPostToDelete}/del`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/blog/${blogPostToDelete}/del`,
       );
       setBlogs((prev) => prev.filter((b) => b.id !== blogPostToDelete));
     } catch (error) {

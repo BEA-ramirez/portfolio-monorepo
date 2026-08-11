@@ -31,9 +31,13 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       // send data to express
-      await axios.post("http://localhost:4000/api/auth/login", data, {
-        withCredentials: true,
-      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
+        data,
+        {
+          withCredentials: true,
+        },
+      );
 
       router.push("/admin/bea/home");
     } catch (error) {

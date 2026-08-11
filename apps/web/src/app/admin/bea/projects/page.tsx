@@ -29,7 +29,7 @@ export default function AdminProjects() {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(
-          "https://bea-ramirez-portfolio-api.vercel.app/api/projects",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/projects`,
         );
         console.log("Data from API:", response.data);
         setProjects(response.data);
@@ -52,7 +52,7 @@ export default function AdminProjects() {
     setIsDeleting(true);
     try {
       await axios.patch(
-        `https://bea-ramirez-portfolio-api.vercel.app/api/projects/${projectToDelete}/del`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/projects/${projectToDelete}/del`,
       );
       setProjects((prev) => prev.filter((p) => p.id !== projectToDelete));
     } catch (error) {
