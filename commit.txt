@@ -1,1 +1,1 @@
-- Implemented middleware for both frontend and backend
+- Middleware fix
