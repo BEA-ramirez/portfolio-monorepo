@@ -2,11 +2,10 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { MdEdit, MdDelete } from "react-icons/md";
-import { FiExternalLink } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
 import DeleteModal from "@/components/delete-modal";
+import { api } from "@/lib/api";
 
 interface BlogPost {
   id: string;
@@ -27,9 +26,7 @@ export default function AdminBlogPosts() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/blog`,
-        );
+        const response = await api.get(`/api/blog`);
         console.log("Data from API:", response.data);
         setBlogs(response.data);
       } catch (error) {
@@ -50,9 +47,7 @@ export default function AdminBlogPosts() {
     if (!blogPostToDelete) return;
     setIsDeleting(true);
     try {
-      await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/blog/${blogPostToDelete}/del`,
-      );
+      await api.patch(`/api/blog/${blogPostToDelete}/del`);
       setBlogs((prev) => prev.filter((b) => b.id !== blogPostToDelete));
     } catch (error) {
       console.error("Error deleting blog post:", error);

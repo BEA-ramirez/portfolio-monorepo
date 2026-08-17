@@ -2,11 +2,11 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { FiExternalLink } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
 import DeleteModal from "@/components/delete-modal";
+import { api } from "@/lib/api";
 
 interface Project {
   id: string;
@@ -28,9 +28,7 @@ export default function AdminProjects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/projects`,
-        );
+        const response = await api.get("/api/projects");
         console.log("Data from API:", response.data);
         setProjects(response.data);
       } catch (error) {
@@ -51,9 +49,7 @@ export default function AdminProjects() {
     if (!projectToDelete) return;
     setIsDeleting(true);
     try {
-      await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/projects/${projectToDelete}/del`,
-      );
+      await api.patch(`/api/projects/${projectToDelete}/del`);
       setProjects((prev) => prev.filter((p) => p.id !== projectToDelete));
     } catch (error) {
       console.error("Error deleting project:", error);

@@ -19,10 +19,10 @@ import { Switch } from "@/components/ui/switch";
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, Controller, useWatch } from "react-hook-form";
-import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { UploadButton } from "@/utils/uploadthing";
+import { api } from "@/lib/api";
 
 interface EditorPageProps {
   params: Promise<{
@@ -82,9 +82,7 @@ function BlogPostEditor({ params }: EditorPageProps) {
       setIsLoading(true);
       try {
         // fetch data from express api
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/blog/${blogPostId}`,
-        );
+        const response = await api.get(`/api/blog/${blogPostId}`);
         const existingData = response.data;
 
         reset({
@@ -153,10 +151,7 @@ function BlogPostEditor({ params }: EditorPageProps) {
         const { id, ...creationData } = data;
 
         console.log("Sending POST request to create:", data);
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/blog`,
-          creationData,
-        );
+        const response = await api.post(`/api/blog`, creationData);
         if (response.data && response.data.id) {
           router.replace(`/admin/bea/blog-posts/${response.data.id}`); // recalculate the params
         }
@@ -165,10 +160,7 @@ function BlogPostEditor({ params }: EditorPageProps) {
           `Sending PUT request to update blog post ${blogPostId}:`,
           data,
         );
-        await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/blog/${blogPostId}`,
-          data,
-        );
+        await api.patch(`/api/blog/${blogPostId}`, data);
       }
 
       setShowToast(true);
