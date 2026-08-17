@@ -2,9 +2,9 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { api } from "@/lib/api";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
@@ -31,13 +31,9 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       // send data to express
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
-        data,
-        {
-          withCredentials: true,
-        },
-      );
+      await api.post(`/api/auth/login`, data, {
+        withCredentials: true,
+      });
 
       router.push("/admin/bea/home");
     } catch (error) {
