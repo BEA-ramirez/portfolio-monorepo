@@ -1,1 +1,5 @@
-- Middleware fix
+- Fixed custom editor issue (textarea cursor always goes to end)
+- Updated admin pages to use the dark & light themes
+- Added backend api for featured projects
+- Updated sheet component to include company and feature button
+- NEXT GOAL: Make pages responsive

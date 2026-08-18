@@ -95,6 +95,8 @@ export const ProjectScalarFieldEnum = {
   githubUrl: 'githubUrl',
   liveUrl: 'liveUrl',
   content: 'content',
+  company: 'company',
+  isFeatured: 'isFeatured',
   isPublished: 'isPublished',
   isArchived: 'isArchived',
   createdAt: 'createdAt',

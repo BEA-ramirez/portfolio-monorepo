@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"; //highlighter and theme
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -29,7 +29,9 @@ export default function CustomEditor({
   const [prevInitialValue, setPrevInitialValue] = useState(initialValue);
   if (initialValue !== prevInitialValue) {
     setPrevInitialValue(initialValue);
-    setContent(initialValue);
+    if (initialValue !== content) {
+      setContent(initialValue);
+    }
   }
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -39,20 +41,20 @@ export default function CustomEditor({
   };
 
   return (
-    <div className="grid h-150 grid-cols-2 gap-4 font-mono">
+    <div className="grid h-165 grid-cols-2 gap-4 font-mono">
       <div className="flex flex-col">
         <h3 className="mb-2 font-bold">Write (Raw Markdown)</h3>
         <textarea
           onChange={handleTextChange}
-          className="flex-1 resize-none rounded-md border p-4 font-mono text-sm"
+          className="flex-1 text-small text-foreground/70 resize-none rounded-md p-4 font-mono scrollbar-thin"
           placeholder="```typescript\nconst hello = 'world';\n```"
-          value={initialValue}
+          value={content}
         />
       </div>
 
-      <div className="flex flex-col overflow-y-auto border-l pl-4">
+      <div className="flex flex-col overflow-y-auto border-l border-border pl-4 scrollbar-thin">
         <h3 className="mb-2 font-bold">Preview</h3>
-        <div className="prose prose-sm max-w-none">
+        <div className="prose prose-sm max-w-none prose-headings:text-foreground prose-p:text-foreground prose-strong:text-accent prose-a:text-accent hover:prose-a:text-secondary-accent text-foreground">
           <ReactMarkdown
             remarkPlugins={[remarkMath]}
             rehypePlugins={[rehypeRaw, rehypeKatex, rehypeSlug]}

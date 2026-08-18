@@ -35,6 +35,7 @@ const projectSchema = z.object({
   title: z.string().min(1, "Title is required."),
   description: z.string().optional(),
   role: z.string().optional(),
+  company: z.string().optional(),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
   slug: z.string().min(1, "Slug is required."),
@@ -73,6 +74,7 @@ function ProjectEditor({ params }: EditorPageProps) {
       title: "",
       description: "",
       role: "",
+      company: "",
       startDate: "",
       endDate: "",
       slug: "",
@@ -100,6 +102,7 @@ function ProjectEditor({ params }: EditorPageProps) {
           title: existingData.title,
           description: existingData.description,
           role: existingData.role,
+          company: existingData.company,
           startDate: existingData.startDate,
           endDate: existingData.endDate,
           slug: existingData.slug,
@@ -220,7 +223,7 @@ function ProjectEditor({ params }: EditorPageProps) {
             <SheetTrigger className="hover:text-gray-500 cursor-pointer">
               <TbArrowAutofitLeftFilled size={20} />
             </SheetTrigger>
-            <SheetContent className="w-100 sm:w-135 overflow-y-auto">
+            <SheetContent className="w-100 sm:w-135 overflow-y-auto bg-background scrollbar-thin">
               <SheetHeader>
                 <SheetTitle>Project Details</SheetTitle>
                 <SheetDescription>
@@ -281,6 +284,19 @@ function ProjectEditor({ params }: EditorPageProps) {
                   )}
                 </div>
                 <div className="flex flex-col">
+                  <label>Company</label>
+                  <input
+                    type="text"
+                    {...register("company")}
+                    className="border rounded-md px-3 py-2"
+                  />
+                  {errors.company && (
+                    <span className="text-red-500 text-xsmall">
+                      {errors.company.message}
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-col">
                   <label>Start Date</label>
                   <input
                     type="date"
@@ -320,7 +336,7 @@ function ProjectEditor({ params }: EditorPageProps) {
                         <Badge
                           variant="outline"
                           key={tag}
-                          className="!pl-2 !pr-0 !py-1 rounded-md bg-gray-100"
+                          className="!pl-2 !pr-0 !py-1 rounded-md bg-card text-card-foreground"
                         >
                           {tag}
                           <button
@@ -375,13 +391,13 @@ function ProjectEditor({ params }: EditorPageProps) {
                     appearance={{
                       // 1. Style the button to match your sleek black-and-white theme
                       button:
-                        "bg-black text-white hover:bg-gray-800 transition-colors rounded-md px-4 py-2 text-sm font-medium focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-black outline-none",
+                        "bg-card text-white hover:bg-gray-800 transition-colors rounded-md px-4 py-2 text-sm font-medium focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-black outline-none",
 
                       // 2. Wrap it tightly so it doesn't take up the whole screen width
                       container: "w-max flex-col items-start",
 
                       // 3. Mute the helper text so it doesn't distract from the rest of the form
-                      allowedContent: "text-gray-400 text-xs mt-1",
+                      allowedContent: "text-card-foreground text-xs mt-1",
                     }}
                     onClientUploadComplete={(res) => {
                       // res[0].url is the permanent string you save to your database
@@ -410,6 +426,7 @@ function ProjectEditor({ params }: EditorPageProps) {
                           id="published"
                           checked={field.value}
                           onCheckedChange={field.onChange}
+                          className="!bg-card !text-foreground"
                         />
                       )}
                     />

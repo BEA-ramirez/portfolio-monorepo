@@ -4,6 +4,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 @plugin "@tailwindcss/typography";
+@plugin "tailwind-scrollbar";
 
 @theme inline {
   --color-background: var(--background);

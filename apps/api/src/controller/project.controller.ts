@@ -68,6 +68,39 @@ export const updateProject = async (
   }
 };
 
+export const toggleFeaturedProject = async (
+  req: Request<{ id: string }>,
+  res: Response,
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    const project = await prisma.project.findUnique({
+      where: { id },
+      select: { isFeatured: true },
+    });
+
+    if (!project) {
+      res.status(404).json({ message: "Project not found" });
+      return;
+    }
+
+    const updatedProject = await prisma.project.update({
+      where: { id },
+      data: {
+        isFeatured: !project.isFeatured,
+      },
+    });
+
+    res
+      .status(200)
+      .json({ message: "Project featured toggled.", updatedProject });
+  } catch (error) {
+    console.error("Error to feature the project:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 // GET : fetch all projects
 export const getAllProjects = async (
   req: Request,
@@ -99,6 +132,24 @@ export const getAllLiveProjects = async (
     res.status(200).json(projects);
   } catch (error) {
     console.error("Error fetching live projects:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+//GET : fetch all featured projects
+export const getAllFeaturedProjects = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const projects = await prisma.project.findMany({
+      where: { isArchived: false, isFeatured: true },
+      orderBy: { createdAt: "desc" },
+    });
+
+    res.status(200).json(projects);
+  } catch (error) {
+    console.error("Error fetching featured projects:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };

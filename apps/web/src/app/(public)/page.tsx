@@ -44,7 +44,10 @@ export default function Home() {
               <p>→</p>
               <p>get in touch</p>
             </button>
-            <button className="px-3 py-2 text-sm text-foreground bg-card hover:text-accent hover:border-accent flex items-center gap-3 border border-border rounded-lg cursor-pointer">
+            <button
+              onClick={() => router.push("/projects")}
+              className="px-3 py-2 text-sm text-foreground bg-card hover:text-accent hover:border-accent flex items-center gap-3 border border-border rounded-lg cursor-pointer"
+            >
               <p>$</p>
               <p>ls projects/</p>
             </button>

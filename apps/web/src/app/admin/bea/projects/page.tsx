@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { FiExternalLink } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 import DeleteModal from "@/components/delete-modal";
 import { api } from "@/lib/api";
 
@@ -12,6 +13,7 @@ interface Project {
   id: string;
   title: string;
   isPublished: boolean;
+  isFeatured: boolean;
   createdAt: string;
   liveUrl: string | null;
 }
@@ -43,6 +45,19 @@ export default function AdminProjects() {
   const handleDelete = async (projectId: string) => {
     setShowDeleteModal(true);
     setProjectToDelete(projectId);
+  };
+
+  const handleFeatureProject = async (projectId: string) => {
+    try {
+      await api.patch(`/api/projects/${projectId}/feat`);
+      setProjects((prev) =>
+        prev.map((p) =>
+          p.id === projectId ? { ...p, isFeatured: !p.isFeatured } : p,
+        ),
+      );
+    } catch (error) {
+      console.error("Error featuring project:", error);
+    }
   };
 
   const confirmDelete = async () => {
@@ -79,9 +94,9 @@ export default function AdminProjects() {
           <p className="text-xsmall">New Project</p>
         </button>
       </div>
-      <div className="w-200 rounded-lg border border-gray-300 shadow-sm ">
-        <table className="w-full text-left text-sm text-gray-600 border-none">
-          <thead className="border border-b border-gray-200  text-gray-900 border-none">
+      <div className="w-200 rounded-lg border border-border shadow-sm ">
+        <table className="w-full text-left text-sm text-foreground border-none">
+          <thead className="border border-b border-border  text-foreground border-none">
             <tr className="text-small">
               <th className="px-4 py-2 font-semibold">title</th>
               <th className="px-4 py-2 font-semibold">status</th>
@@ -93,13 +108,19 @@ export default function AdminProjects() {
           <tbody className="divide-y divide-gray-100">
             {isLoading ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
+                <td
+                  colSpan={4}
+                  className="px-4 py-8 text-center text-foreground"
+                >
                   Loading projects...
                 </td>
               </tr>
             ) : projects.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
+                <td
+                  colSpan={4}
+                  className="px-4 py-8 text-center text-foreground"
+                >
                   No projects found. Click &quot;New Project&quot; to create
                   one!
                 </td>
@@ -110,7 +131,7 @@ export default function AdminProjects() {
                   key={project.id}
                   className="transition-colors hover:bg-gray50 text-xsmall"
                 >
-                  <td className="px-4 py-2 font-medium text-gray-900">
+                  <td className="px-4 py-2 font-medium text-foreground">
                     {project.title}
                   </td>
                   <td className="px-4 py-2">
@@ -144,6 +165,18 @@ export default function AdminProjects() {
                       >
                         <FiExternalLink size={18} />
                       </a>
+
+                      {/* Feature Button */}
+                      <button
+                        onClick={() => handleFeatureProject(project.id)}
+                        className="text-gray-400 transition hover:outline-accent cursor-pointer"
+                        title="Feature"
+                      >
+                        <FaStar
+                          size={18}
+                          className={`${project.isFeatured ? "text-accent" : ""}`}
+                        />
+                      </button>
 
                       {/* Edit Button */}
                       <Link

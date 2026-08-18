@@ -8,9 +8,9 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
 import { CodeProps } from "@/components/custom-editor";
-import axios from "axios";
 import { extractToc } from "@/utils/extract-toc";
 import { formatDateToText } from "@/utils/format-date";
+import { api } from "@/lib/api";
 
 interface ProjectDetailsParams {
   params: Promise<{
@@ -43,9 +43,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
     const fetchProjectData = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/projects/${slug}/details`,
-        );
+        const response = await api.get(`/api/projects/${slug}/details`);
         console.log("Data from API:", response.data);
         setProject(response.data);
       } catch (error) {
@@ -74,7 +72,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
   }
 
   return (
-    <div className="p-30 pt-20 flex gap-20 flex-1">
+    <div className="p-30 pt-20 flex gap-20 flex-1 relative">
       {/* Project Content */}
       <section className="flex flex-col gap-8 max-w-200 items-start">
         <button className="text-xsmall text-secondary-foreground hover:text-accent cursor-pointer transition-colors">
@@ -125,8 +123,8 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
       </section>
 
       {/* Table of Contents */}
-      <section>
-        <h4 className="text-secondary-foreground text-small uppercase">
+      <section className="fixed right-34">
+        <h4 className="text-secondary-foreground text-small uppercase mb-3">
           On this page
         </h4>
         <nav className="flex flex-col gap-2 border-l border-border pl-4">
@@ -134,7 +132,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
             <a
               key={item.id}
               href={`#${item.id}`}
-              className={`text-small text-muted-foreground transition-colors hover:text-accent hover:underline ${
+              className={`text-small mb-1 text-muted-foreground transition-colors hover:text-accent hover:font-medium ${
                 item.level === 3 ? "ml-4 text-xs" : ""
               }`}
             >
