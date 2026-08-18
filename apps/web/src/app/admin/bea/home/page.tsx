@@ -1,5 +1,10 @@
 import { FaFolder, FaPencilAlt, FaPlus } from "react-icons/fa";
 import { FaBolt } from "react-icons/fa6";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home",
+};
 
 export default function AdminHome() {
   return (

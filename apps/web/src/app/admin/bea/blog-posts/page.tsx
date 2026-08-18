@@ -6,6 +6,11 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
 import DeleteModal from "@/components/delete-modal";
 import { api } from "@/lib/api";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog Posts",
+};
 
 interface BlogPost {
   id: string;
