@@ -2,10 +2,10 @@
 import Link from "next/link";
 import { CiSearch } from "react-icons/ci";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { formatDateInProjects } from "@/utils/format-date";
+import { api } from "@/lib/api";
 
-interface Project {
+export interface Project {
   id: string;
   title: string;
   description?: string | null;
@@ -16,19 +16,19 @@ interface Project {
   githubUrl: string | null;
   slug: string;
   content: string;
+  company?: string;
+  isFeatured: boolean;
 }
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/projects/live`,
-        );
+        const response = await api.get("/api/projects/live");
         console.log("Data from API:", response.data);
         setProjects(response.data);
       } catch (error) {
@@ -62,14 +62,16 @@ export default function ProjectsPage() {
       </div>
       {/* Projects List */}
       {isLoading ? (
-        <div>
-          <p className="px-4 py-8 text-center text-gray-500">
+        <div className="h-100 flex items-center justify-center">
+          <p className="px-4 py-8 text-secondary-foreground">
             Loading projects...
           </p>
         </div>
       ) : projects.length === 0 ? (
-        <div>
-          <p>No projects found.</p>
+        <div className="h-100 flex items-center justify-center">
+          <p className="px-4 py-8 text-secondary-foreground">
+            No projects found.
+          </p>
         </div>
       ) : (
         projects.map((project) => (

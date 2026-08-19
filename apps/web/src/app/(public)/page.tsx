@@ -1,11 +1,39 @@
 "use client";
+import { useState, useEffect } from "react";
 import ProjectCard from "@/components/project-card";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { api } from "@/lib/api";
+import { Project } from "./projects/page";
 
 export default function Home() {
   const router = useRouter();
+  const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
+  const [totalProjects, setTotalProjects] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setIsLoading(true);
+        const response = await api.get("/api/projects/live");
+        console.log("Data from API:", response.data);
+        const projects = response.data;
+        const fProjects = projects.filter(
+          (proj: Project) => proj.isFeatured === true,
+        );
+        setFeaturedProjects(fProjects);
+        setTotalProjects(projects.length);
+      } catch (error) {
+        console.error("Error fetching projects", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
+
   return (
     <div className="font-mono flex flex-col flex-1  ">
       {/* Home */}
@@ -92,16 +120,30 @@ export default function Home() {
           </h6>
           <div className="flex flex-col items-end text-small text-accent font-semibold">
             <p>~/projects/featured</p>
-            <p>3 of 12 visible</p>
+            <p>
+              {featuredProjects.length} of {totalProjects} visible
+            </p>
           </div>
         </div>
         <h2 className="mb-6 text-h1 -mt-4 border-b border-border pb-6">
           Selected projects
         </h2>
-        <div className="mb-4 flex items-center justify-between pb-10 border-b border-dashed border-border">
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
+        <div className="w-full mb-4 flex items-center gap-3 pb-10 border-b border-dashed border-border overflow-x-auto scrollbar-thin scrollbar-thumb-accent">
+          {isLoading ? (
+            <div>
+              <p className="px-4 py-8 text-center text-gray-500">
+                Loading projects...
+              </p>
+            </div>
+          ) : featuredProjects.length === 0 ? (
+            <div>
+              <p>No featured projects found.</p>
+            </div>
+          ) : (
+            featuredProjects.map((project, ind) => (
+              <ProjectCard project={project} order={ind + 1} key={project.id} />
+            ))
+          )}
         </div>
         <div className="flex items-start justify-between ">
           <div className="flex items-center gap-3 text-small text-accent font-semibold">

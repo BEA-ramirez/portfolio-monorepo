@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, use } from "react";
+import { useRouter } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -32,11 +33,12 @@ interface Project {
 }
 
 export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
+  const router = useRouter();
   const resolvedParams = use(params);
   const slug = resolvedParams.slug;
 
   const [project, setProject] = useState<Project | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const toc = extractToc(project?.content);
 
   useEffect(() => {
@@ -57,7 +59,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
 
   if (isLoading) {
     return (
-      <div className="flex flex-1 items-center justify-center">
+      <div className="flex flex-1 items-center h-screen justify-center">
         <p>Loading project...</p>
       </div>
     );
@@ -65,7 +67,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
 
   if (!project) {
     return (
-      <div className="flex flex-1 items-center justify-center">
+      <div className="flex flex-1 items-center h-screen justify-center">
         <p>No project found.</p>
       </div>
     );
@@ -75,7 +77,10 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
     <div className="p-30 pt-20 flex gap-20 flex-1 relative">
       {/* Project Content */}
       <section className="flex flex-col gap-8 max-w-200 items-start">
-        <button className="text-xsmall text-secondary-foreground hover:text-accent cursor-pointer transition-colors">
+        <button
+          onClick={() => router.push("/projects")}
+          className="text-xsmall text-secondary-foreground hover:text-accent cursor-pointer transition-colors"
+        >
           ← cd ../projects
         </button>
         <header className="flex flex-col border-b border-border gap-2 pb-12">
@@ -92,7 +97,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
             </p>
           </div>
         </header>
-        <article className="prose prose-sm max-w-none prose-headings:text-foreground prose-p:text-foreground prose-strong:text-accent prose-a:text-accent hover:prose-a:text-secondary-accent text-foreground">
+        <article className="prose prose-sm max-w-none prose-headings:scroll-mt-24 prose-headings:text-foreground prose-p:text-foreground prose-strong:text-accent prose-a:text-accent hover:prose-a:text-secondary-accent text-foreground">
           <ReactMarkdown
             remarkPlugins={[remarkMath]}
             rehypePlugins={[rehypeRaw, rehypeKatex, rehypeSlug]}
