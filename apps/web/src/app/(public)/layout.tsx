@@ -11,11 +11,11 @@ export default function RootLayout({
 }>) {
   return (
     <InteractiveDotGrid>
-      <header className="sticky text-small text-foreground h-18 border-b border-border flex items-center justify-center gap-30 top-0 z-200 bg-background/50 backdrop-blur-md">
+      <header className="md:flex sticky md:text-small text-xsmall text-foreground h-18 border-b border-border hidden items-center justify-center gap-8 lg:gap-30 top-0 z-200 bg-background/50 backdrop-blur-md">
         <Link href="/" className="text-accent font-bold cursor-pointer">
           BEA.ramirez-dev
         </Link>
-        <div className="flex items-center justify-center gap-12 ">
+        <div className="flex items-center justify-center gap-4 lg:gap-12 ">
           <Link href="/#home" className="hover:text-accent cursor-pointer">
             ~/home
           </Link>
@@ -36,7 +36,7 @@ export default function RootLayout({
       </header>
       <main>{children}</main>
       {/* Footer */}
-      <footer className="mt-20 border-t border-border mx-30 mb-20 pt-6 flex items-center justify-between text-xsmall text-accent">
+      <footer className="mt-20 border-t border-border mx-10 md:mx-30 mb-20 pt-6 flex md:flex-row flex-col items-end gap-2 md:gap-0 md:items-center justify-between text-xsmall text-accent">
         <h5>© 2026 BEA-ramirez. All rights reserved.</h5>
         <div className="flex items-center gap-3">
           <a

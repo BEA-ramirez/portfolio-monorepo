@@ -58,6 +58,8 @@ export default function Home() {
         setTotalProjects(projects.length);
       } catch (error) {
         console.error("Error fetching projects", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchProjects();
@@ -82,7 +84,7 @@ export default function Home() {
   return (
     <div className="font-mono flex flex-col flex-1  ">
       {/* Home */}
-      <section id="home" className="p-30">
+      <section id="home" className="p-10 md:p-30">
         <div className="bg-card text-sm text-muted-foreground mb-5 flex gap-4 items-center border border-border w-fit p-1 px-3 rounded-3xl">
           <div className="rounded-full bg-accent w-2 h-2" />
           <p className="uppercase">available</p>
@@ -90,19 +92,21 @@ export default function Home() {
           <p>for work</p>
         </div>
 
-        <h2 className="mb-2 text-6xl font-bold text-foreground">
+        <h2 className="mb-2 text-4xl md:text-6xl font-bold text-foreground">
           $ hi, I&apos;m
         </h2>
         <div className="mb-5 flex items-center gap-2 ">
-          <h2 className="text-6xl font-bold text-foreground">BEA Ramirez</h2>
+          <h2 className="text-4xl md:text-6xl font-bold text-foreground">
+            BEA Ramirez
+          </h2>
           <div className="w-5 h-13 bg-foreground" />
         </div>
 
-        <p className="mb-6 text-small text-accent font-semibold">
+        <p className="mb-6 text-xsmall md:text-small text-accent font-semibold">
           Full-Stack Developer | CS Fresh Graduate | Visayas State University
         </p>
 
-        <p className="mb-8 w-140 text-small text-foreground">
+        <p className="mb-8 md:w-140 text-xsmall md:text-small text-foreground">
           I build full-stack web applications end-to-end: real-time management
           systems, robust backends, and the clean interfaces beneath them.
           Throughout my CS degree, I&apos;ve focused on shipping modern projects
@@ -111,7 +115,7 @@ export default function Home() {
           I&apos;m a fresh grad, a continuous learner, and a pixel artist in
           training. This portfolio is my latest deployment.
         </p>
-        <div className="flex items-center justify-between w-130">
+        <div className="flex flex-col md:flex-row items-start gap-3 lg:items-center justify-between md:w-130">
           <div className="flex items-center gap-3">
             <button className="px-3 py-2 text-sm flex items-center gap-3 bg-accent hover:bg-secondary-accent text-foreground rounded-lg cursor-pointer">
               <p>→</p>
@@ -158,8 +162,8 @@ export default function Home() {
       </section>
 
       {/* Projects */}
-      <section id="projects" className="p-30 text-foreground">
-        <div className="flex items-start justify-between">
+      <section id="projects" className="p-10 md:p-30 text-foreground">
+        <div className="flex  items-start justify-between">
           <h6 className="uppercase text-small text-accent font-bold">
             <span>02</span> Featured Work
           </h6>
@@ -170,7 +174,7 @@ export default function Home() {
             </p>
           </div>
         </div>
-        <h2 className="mb-6 text-h1 -mt-4 border-b border-border pb-6">
+        <h2 className="mb-6 text-3xl md:text-h1 md:-mt-4 border-b border-border pb-6">
           Selected projects
         </h2>
         <div className="w-full mb-4 flex items-center gap-3 pb-10 border-b border-dashed border-border overflow-x-auto scrollbar-thin scrollbar-thumb-accent">
@@ -190,8 +194,8 @@ export default function Home() {
             ))
           )}
         </div>
-        <div className="flex items-start justify-between ">
-          <div className="flex items-center gap-3 text-small text-accent font-semibold">
+        <div className="flex md:flex-row flex-col md:gap-0 gap-3 items-start justify-between ">
+          <div className="flex items-center gap-3 text-xsmall md:text-small text-accent font-semibold">
             <p>$ ls -al /projects</p>
             <p>{"// list all projects"}</p>
           </div>
@@ -206,7 +210,7 @@ export default function Home() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="p-30 pb-10 text-foreground ">
+      <section id="contact" className="p-10 md:p-30 pb-10 text-foreground ">
         <div className="flex items-start justify-between">
           <h6 className="uppercase text-small text-accent font-bold">
             <span>03</span> Get in Touch
@@ -216,15 +220,15 @@ export default function Home() {
             <p>{"replies in < 24"}</p>
           </div>
         </div>
-        <h2 className="mb-6 text-h1 -mt-4 border-b border-border pb-6">
-          Let&apos;s build something.
+        <h2 className="mb-6 text-3xl md:text-h1 md:-mt-4 border-b border-border pb-6">
+          Let&apos;s collaborate
         </h2>
-        <div className="flex justify-between gap-12">
+        <div className="flex lg:flex-row flex-col justify-between gap-3 md:gap-12">
           <div className="flex-1">
             <div className="border-b border-dashed pb-3  ">
               <a
                 href="mailto:beaerinangelramirez@gmail.com"
-                className="text-h3 tracking-wider hover:font-semibold hover:text-accent transition-all duration-300"
+                className="text-sm md:text-h3 tracking-wider hover:font-semibold hover:text-accent transition-all duration-300"
               >
                 beaerinangelramirez@gmail.com →
               </a>
@@ -250,15 +254,6 @@ export default function Home() {
                 <span className="text-accent font-medium">linkedin</span>{" "}
                 in/bea-erin-angel-ramirez/
               </p>
-            </div>
-            <div className="flex flex-col gap-3">
-              <p className="text-small">prefer a call?</p>
-              <button className="group bg-card hover:font-semibold flex items-center gap-4 border border-border rounded-md px-4 py-2 w-fit text-small cursor-pointer hover:border-accent">
-                <p>$</p>
-                <p className="group-hover:text-accent">
-                  schedule a 30-min call
-                </p>
-              </button>
             </div>
           </div>
           <div className="flex-1 flex flex-col gap-6 border border-border bg-card rounded-xl p-5 text-foreground">
@@ -315,13 +310,13 @@ export default function Home() {
               )}
             </div>
             <div className="flex justify-between">
-              <p className="text-small text-accent font-semibold -mt-4">
-                protected • rate limited
+              <p className="text-xsmall md:text-small text-accent font-semibold -mt-4">
+                protected
               </p>
               <button
                 onClick={handleSubmit(onSubmit)}
                 disabled={isSubmitting}
-                className="px-3 py-2 bg-accent hover:bg-secondary-accent rounded-md text-small cursor-pointer"
+                className="px-3 py-2 bg-accent hover:bg-secondary-accent rounded-md text-xsmall md:text-small cursor-pointer"
               >
                 {isSubmitting ? (
                   <div className="flex items-center gap-3">

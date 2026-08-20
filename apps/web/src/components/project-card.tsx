@@ -14,9 +14,9 @@ export default function ProjectCard({
   return (
     <button
       onClick={() => router.push(`projects/${project.slug}`)}
-      className="shrink-0 group text-left w-90 h-80 hover:border-accent cursor-pointer border border-border rounded-xl p-5 bg-card text-foreground"
+      className="shrink-0 group text-left w-83 md:w-90 h-80 hover:border-accent cursor-pointer border border-border rounded-xl p-5 bg-card text-foreground"
     >
-      <div className="flex flex-col gap-4 border-b border-dashed h-full group-hover:border-accent">
+      <div className="flex flex-col gap-4 md:border-b border-dashed h-full group-hover:border-accent">
         <p className="text-xsmall group-hover:text-accent text-card-foreground">
           [{order}]
         </p>

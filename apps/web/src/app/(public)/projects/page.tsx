@@ -41,16 +41,18 @@ export default function ProjectsPage() {
   }, []);
 
   return (
-    <div className="font-mono flex flex-col flex-1 p-30">
-      <h6 className="text-xsmall text-accent mb-4">~ / projects / 9 entries</h6>
+    <div className="font-mono flex flex-col flex-1 p-10 md:p-30">
+      <h6 className="text-xsmall text-accent mb-4">
+        ~ / projects / {projects ? projects.length : 0} entries
+      </h6>
 
-      <h2 className="text-6xl text-foreground font-semibold mb-4">
+      <h2 className="text-5xl md:text-6xl text-foreground font-semibold mb-4">
         $ ls -al <span className="text-accent">~/projects</span>
       </h2>
       <p className="text-small text-foreground">
         All things I&apos;ve worked on. Some are academic, others are personal.
       </p>
-      <div className="flex justify-end pb-8 border-b border-border">
+      <div className="flex justify-center md:justify-end pb-8 border-b border-border">
         <div className="bg-card w-80 mt-8 flex items-center gap-3 border border-border rounded-md px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent">
           <CiSearch size={20} />
           <input
@@ -78,13 +80,13 @@ export default function ProjectsPage() {
           <Link
             href={`/projects/${project.slug}`}
             key={project.id}
-            className="group flex items-center gap-4 justify-between p-6 border-b border-border"
+            className="group flex items-center gap-4 justify-between p-6 md:px-6 px-0 border-b border-border"
           >
             <div className="flex flex-col gap-1  max-w-200">
-              <h5 className="text-2xl text-foreground font-medium group-hover:text-accent transition-colors">
+              <h5 className="text-md md:text-2xl text-foreground font-medium group-hover:text-accent transition-colors">
                 {project.title}
               </h5>
-              <p className="text-small text-secondary-foreground">
+              <p className="text-xsmall md:text-small text-secondary-foreground line-clamp-3">
                 {project.description}
               </p>
             </div>

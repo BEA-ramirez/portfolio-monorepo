@@ -12,6 +12,7 @@ import { CodeProps } from "@/components/custom-editor";
 import { extractToc } from "@/utils/extract-toc";
 import { formatDateToText } from "@/utils/format-date";
 import { api } from "@/lib/api";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 interface ProjectDetailsParams {
   params: Promise<{
@@ -39,6 +40,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
 
   const [project, setProject] = useState<Project | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showToc, setShowToc] = useState(false);
   const toc = extractToc(project?.content);
 
   useEffect(() => {
@@ -74,7 +76,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
   }
 
   return (
-    <div className="p-30 pt-20 flex gap-20 flex-1 relative">
+    <div className="p-10 md:p-20 lg:p-30 pt-20 flex gap-20 flex-1 relative">
       {/* Project Content */}
       <section className="flex flex-col gap-8 max-w-200 items-start">
         <button
@@ -128,7 +130,37 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
       </section>
 
       {/* Table of Contents */}
-      <section className="fixed right-34">
+      <section className="xl:hidden fixed right-4 md:right-20 z-50">
+        <button
+          onClick={() => setShowToc(!showToc)}
+          className="flex justify-end w-full cursor-pointer hover:bg-accent-foreground/60"
+        >
+          <div className="border border-border rounded-md p-1 ">
+            <RxHamburgerMenu />
+          </div>
+        </button>
+        {showToc && (
+          <div className="bg-card text-card-foreground rounded-md p-1">
+            <h4 className="text-secondary-foreground text-small uppercase mb-3">
+              On this page
+            </h4>
+            <nav className="flex flex-col gap-2 border-l border-border pl-4">
+              {toc?.map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  className={`text-small mb-1 text-muted-foreground transition-colors hover:text-accent hover:font-medium ${
+                    item.level === 3 ? "ml-4 text-xs" : ""
+                  }`}
+                >
+                  {item.text}
+                </a>
+              ))}
+            </nav>
+          </div>
+        )}
+      </section>
+      <section className="hidden xl:block fixed right-10 md:right-34 z-50">
         <h4 className="text-secondary-foreground text-small uppercase mb-3">
           On this page
         </h4>
