@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
 import projectRoutes from "./routes/project.routes.js";
 import blogRoutes from "./routes/blog.routes.js";
+import contactRoutes from "./routes/contact.routes.js";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/blog", blogRoutes);
+app.use("/api/contact", contactRoutes);
 
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 4000;

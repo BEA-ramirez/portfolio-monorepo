@@ -4,14 +4,45 @@ import ProjectCard from "@/components/project-card";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { ImSpinner2 } from "react-icons/im";
+import { LuMessageCircleMore } from "react-icons/lu";
 import { api } from "@/lib/api";
 import { Project } from "./projects/page";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+const contactSchema = z.object({
+  name: z.string().min(1, "Name is required."),
+  email: z.string().email("Please enter a valid email address"),
+  message: z.string().min(3, "Message is required."),
+});
+
+type ContactFormSchema = z.infer<typeof contactSchema>;
 
 export default function Home() {
   const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    clearErrors,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormSchema>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  });
+
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
   const [totalProjects, setTotalProjects] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -27,12 +58,26 @@ export default function Home() {
         setTotalProjects(projects.length);
       } catch (error) {
         console.error("Error fetching projects", error);
-      } finally {
-        setIsLoading(false);
       }
     };
     fetchProjects();
   }, []);
+
+  const onSubmit = async (data: ContactFormSchema) => {
+    try {
+      console.log("Submitting data to api:", data);
+      const response = await api.post("/api/contact", data);
+      setToastMessage(response.data.message);
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+        reset();
+      }, 2500);
+    } catch (error) {
+      console.error("Message submission failed:", error);
+    } finally {
+    }
+  };
 
   return (
     <div className="font-mono flex flex-col flex-1  ">
@@ -223,8 +268,16 @@ export default function Home() {
               </label>
               <input
                 type="text"
+                {...register("name", {
+                  onChange: () => clearErrors("name"),
+                })}
                 className="border px-4 py-3 rounded-md text-small"
               />
+              {errors.name && (
+                <p className="mt-1 text-xsmall text-red-500">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
             <div className="flex flex-col gap-1">
               <label className="uppercase text-small">
@@ -232,32 +285,68 @@ export default function Home() {
               </label>
               <input
                 type="email"
+                {...register("email", {
+                  onChange: () => clearErrors("email"),
+                })}
                 className="border px-4 py-3 rounded-md text-small"
               />
+              {errors.email && (
+                <p className="mt-1 text-xsmall text-red-500">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
             <div className="flex flex-col gap-1">
               <label className="uppercase text-small">
                 message <span className="text-accent">*</span>
               </label>
               <textarea
-                name="message"
                 rows={3}
+                {...register("message", {
+                  onChange: () => clearErrors("message"),
+                })}
                 placeholder="Type your message here..."
                 className="border px-4 py-3 rounded-md text-small"
               />
+              {errors.message && (
+                <p className="mt-1 text-xsmall text-red-500">
+                  {errors.message.message}
+                </p>
+              )}
             </div>
             <div className="flex justify-between">
               <p className="text-small text-accent font-semibold -mt-4">
                 protected • rate limited
               </p>
-              <button className="px-3 py-2 flex items-center gap-3 bg-accent hover:bg-secondary-accent rounded-md text-small cursor-pointer">
-                <p>→</p>
-                <p>send message</p>
+              <button
+                onClick={handleSubmit(onSubmit)}
+                disabled={isSubmitting}
+                className="px-3 py-2 bg-accent hover:bg-secondary-accent rounded-md text-small cursor-pointer"
+              >
+                {isSubmitting ? (
+                  <div className="flex items-center gap-3">
+                    <ImSpinner2 className="animate-spin" />
+                    <p>sending message...</p>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-3">
+                    <p>→</p>
+                    <p>send message</p>
+                  </div>
+                )}
               </button>
             </div>
           </div>
         </div>
       </section>
+      {showToast && (
+        <div className="fixed top-30 right-10 z-50 flex items-center justify-center pointer-events-none">
+          <div className="bg-card border border-accent text-accent px-6 py-3 rounded-lg shadow-xl text-small font-medium animate-in fade-in zoom-in duration-200 flex items-center gap-2">
+            <LuMessageCircleMore size={18} />
+            {toastMessage}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
