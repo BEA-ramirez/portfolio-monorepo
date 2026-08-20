@@ -99,7 +99,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
             </p>
           </div>
         </header>
-        <article className="prose prose-sm max-w-none prose-headings:scroll-mt-24 prose-headings:text-foreground prose-p:text-foreground prose-strong:text-accent prose-a:text-accent hover:prose-a:text-secondary-accent text-foreground">
+        <article className="prose prose-sm max-w-none prose-headings:scroll-mt-24 prose-headings:mt-10 prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-accent prose-a:text-accent hover:prose-a:text-secondary-accent text-foreground">
           <ReactMarkdown
             remarkPlugins={[remarkMath]}
             rehypePlugins={[rehypeRaw, rehypeKatex, rehypeSlug]}
