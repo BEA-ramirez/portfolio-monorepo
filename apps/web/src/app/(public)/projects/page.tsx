@@ -24,6 +24,8 @@ export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -40,10 +42,19 @@ export default function ProjectsPage() {
     fetchProjects();
   }, []);
 
+  const filteredProjects = projects.filter((project) => {
+    const query = searchQuery.toLowerCase();
+    const titleMatch = project.title.toLowerCase().includes(query);
+    const descMatch =
+      project.description?.toLowerCase().includes(query) || false;
+
+    return titleMatch || descMatch;
+  });
+
   return (
     <div className="font-mono flex flex-col flex-1 p-10 md:p-30">
       <h6 className="text-xsmall text-accent mb-4">
-        ~ / projects / {projects ? projects.length : 0} entries
+        ~ / projects / {filteredProjects.length} of {projects.length} entries
       </h6>
 
       <h2 className="text-5xl md:text-6xl text-foreground font-semibold mb-4">
@@ -56,9 +67,11 @@ export default function ProjectsPage() {
         <div className="bg-card w-80 mt-8 flex items-center gap-3 border border-border rounded-md px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent">
           <CiSearch size={20} />
           <input
-            type="text"
+            type="search"
             placeholder="Search projects..."
             className="text-small text-foreground w-full focus:outline-none"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
@@ -69,14 +82,14 @@ export default function ProjectsPage() {
             Loading projects...
           </p>
         </div>
-      ) : projects.length === 0 ? (
+      ) : filteredProjects.length === 0 ? (
         <div className="h-100 flex items-center justify-center">
           <p className="px-4 py-8 text-secondary-foreground">
             No projects found.
           </p>
         </div>
       ) : (
-        projects.map((project) => (
+        filteredProjects.map((project) => (
           <Link
             href={`/projects/${project.slug}`}
             key={project.id}

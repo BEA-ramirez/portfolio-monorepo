@@ -1,3 +1,1 @@
-- Implemented backend of contact section
-- Updated contact section of the main page to be able to send message
-- Added nodemailer to the dep
+- Implemented search bar

@@ -171,6 +171,32 @@ export const getProjectBySlug = async (
   }
 };
 
+// GET: search projects by query
+export const searchProjects = async (
+  res: Response,
+  req: Request,
+): Promise<void> => {
+  try {
+    const { query } = req.query;
+
+    const projects = await prisma.project.findMany({
+      where: query
+        ? {
+            OR: [
+              { title: { contains: String(query), mode: "insensitive" } },
+              { description: { contains: String(query), mode: "insensitive" } },
+            ],
+          }
+        : {}, // if no query, return all projects
+      orderBy: { createdAt: "desc" },
+    });
+
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ message: "Search failed" });
+  }
+};
+
 // DELETE : delete project by id
 export const deleteProject = async (
   req: Request<{ id: string }>,
