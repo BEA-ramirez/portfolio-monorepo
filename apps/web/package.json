@@ -13,6 +13,7 @@
     "@hookform/resolvers": "^5.4.3",
     "@phosphor-icons/react": "^2.1.10",
     "@repo/shared": "workspace:*",
+    "@tanstack/react-query": "^5.102.8",
     "@uploadthing/react": "^7.3.3",
     "api": "workspace:*",
     "axios": "^1.18.1",

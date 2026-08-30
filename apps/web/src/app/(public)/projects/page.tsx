@@ -1,9 +1,11 @@
 "use client";
 import Link from "next/link";
 import { CiSearch } from "react-icons/ci";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { formatDateInProjects } from "@/utils/format-date";
 import { api } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export interface Project {
   id: string;
@@ -21,28 +23,22 @@ export interface Project {
 }
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setIsLoading(true);
-        const response = await api.get("/api/projects/live");
-        console.log("Data from API:", response.data);
-        setProjects(response.data);
-      } catch (error) {
-        console.error("Error fetching projects", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
+  const {
+    data: projects = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["projects", "live"],
+    queryFn: async () => {
+      const response = await api.get("/api/projects/live");
+      return response.data;
+    },
+  });
 
-  const filteredProjects = projects.filter((project) => {
+  const filteredProjects = projects.filter((project: Project) => {
     const query = searchQuery.toLowerCase();
     const titleMatch = project.title.toLowerCase().includes(query);
     const descMatch =
@@ -50,6 +46,22 @@ export default function ProjectsPage() {
 
     return titleMatch || descMatch;
   });
+
+  if (isError) {
+    return (
+      <div className="flex flex-col flex-1 items-center h-screen justify-center gap-4">
+        <p className="text-red-500">
+          Failed to load this project. The server might be unreachable.
+        </p>
+        <button
+          onClick={() => router.push("/")}
+          className="text-small text-accent hover:underline"
+        >
+          ← Go back to main page
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="font-mono flex flex-col flex-1 p-10 md:p-30">
@@ -89,7 +101,7 @@ export default function ProjectsPage() {
           </p>
         </div>
       ) : (
-        filteredProjects.map((project) => (
+        filteredProjects.map((project: Project) => (
           <Link
             href={`/projects/${project.slug}`}
             key={project.id}

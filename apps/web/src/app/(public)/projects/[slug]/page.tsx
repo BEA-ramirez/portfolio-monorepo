@@ -13,6 +13,7 @@ import { extractToc } from "@/utils/extract-toc";
 import { formatDateToText } from "@/utils/format-date";
 import { api } from "@/lib/api";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { useQuery } from "@tanstack/react-query";
 
 interface ProjectDetailsParams {
   params: Promise<{
@@ -38,31 +39,41 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
   const resolvedParams = use(params);
   const slug = resolvedParams.slug;
 
-  const [project, setProject] = useState<Project | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    data: project,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["projects", "detail", slug],
+    queryFn: async () => {
+      const response = await api.get(`/api/projects/${slug}/details`);
+      return response.data;
+    },
+  });
+
   const [showToc, setShowToc] = useState(false);
   const toc = extractToc(project?.content);
-
-  useEffect(() => {
-    const fetchProjectData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await api.get(`/api/projects/${slug}/details`);
-        console.log("Data from API:", response.data);
-        setProject(response.data);
-      } catch (error) {
-        console.error("Error fetching project details", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchProjectData();
-  }, [slug]);
 
   if (isLoading) {
     return (
       <div className="flex flex-1 items-center h-screen justify-center">
         <p>Loading project...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex flex-col flex-1 items-center h-screen justify-center gap-4">
+        <p className="text-red-500">
+          Failed to load this project. The server might be unreachable.
+        </p>
+        <button
+          onClick={() => router.push("/projects")}
+          className="text-small text-accent hover:underline"
+        >
+          ← Go back to projects
+        </button>
       </div>
     );
   }

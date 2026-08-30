@@ -1,1 +1,2 @@
-- Implemented search bar
+- Installed tanstack query
+- Implemented caching to the public pages

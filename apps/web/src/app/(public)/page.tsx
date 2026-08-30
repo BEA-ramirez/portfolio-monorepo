@@ -11,6 +11,7 @@ import { Project } from "./projects/page";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useQuery } from "@tanstack/react-query";
 
 const contactSchema = z.object({
   name: z.string().min(1, "Name is required."),
@@ -38,32 +39,25 @@ export default function Home() {
     },
   });
 
-  const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
-  const [totalProjects, setTotalProjects] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setIsLoading(true);
-        const response = await api.get("/api/projects/live");
-        console.log("Data from API:", response.data);
-        const projects = response.data;
-        const fProjects = projects.filter(
-          (proj: Project) => proj.isFeatured === true,
-        );
-        setFeaturedProjects(fProjects);
-        setTotalProjects(projects.length);
-      } catch (error) {
-        console.error("Error fetching projects", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
+  const {
+    data: projects = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["projects", "live"],
+    queryFn: async () => {
+      const response = await api.get("/api/projects/live");
+      return response.data;
+    },
+  });
+
+  const featuredProjects = projects.filter(
+    (proj: Project) => proj.isFeatured === true,
+  );
+  const totalProjects = projects.length;
 
   const onSubmit = async (data: ContactFormSchema) => {
     try {
@@ -180,16 +174,24 @@ export default function Home() {
         <div className="w-full mb-4 flex items-center gap-3 pb-10 border-b border-dashed border-border overflow-x-auto scrollbar-thin scrollbar-thumb-accent">
           {isLoading ? (
             <div>
-              <p className="px-4 py-8 text-center text-gray-500">
+              <p className="px-4 py-8 text-center text-secondary-foreground">
                 Loading projects...
+              </p>
+            </div>
+          ) : isError ? (
+            <div>
+              <p className="px-4 py-8 text-center text-red-500">
+                Failed to load featured projects.
               </p>
             </div>
           ) : featuredProjects.length === 0 ? (
             <div>
-              <p>No featured projects found.</p>
+              <p className="px-4 py-8 text-secondary-foreground">
+                No featured projects found.
+              </p>
             </div>
           ) : (
-            featuredProjects.map((project, ind) => (
+            featuredProjects.map((project: Project, ind: number) => (
               <ProjectCard project={project} order={ind + 1} key={project.id} />
             ))
           )}
