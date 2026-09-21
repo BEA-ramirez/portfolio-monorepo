@@ -12,8 +12,9 @@ import { CodeProps } from "@/components/custom-editor";
 import { extractToc } from "@/utils/extract-toc";
 import { formatDateToText } from "@/utils/format-date";
 import { api } from "@/lib/api";
-import { RxHamburgerMenu } from "react-icons/rx";
 import { useQuery } from "@tanstack/react-query";
+import { FaBookOpenReader } from "react-icons/fa6";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 interface ProjectDetailsParams {
   params: Promise<{
@@ -47,6 +48,7 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
     queryKey: ["projects", "detail", slug],
     queryFn: async () => {
       const response = await api.get(`/api/projects/${slug}/details`);
+      console.log(response.data);
       return response.data;
     },
   });
@@ -92,23 +94,29 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
       <section className="flex flex-col gap-8 max-w-200 items-start">
         <button
           onClick={() => router.push("/projects")}
-          className="text-xsmall text-secondary-foreground hover:text-accent cursor-pointer transition-colors"
+          className="text-small md:text-xsmall pt-3 text-secondary-foreground hover:text-accent cursor-pointer transition-colors"
         >
           ← cd ../projects
         </button>
         <header className="flex flex-col border-b border-border gap-2 pb-12">
-          <h3 className="text-3xl font-medium text-foreground">
+          <h3 className="text-xl md:text-3xl font-medium text-foreground">
             {project?.title}
           </h3>
+          <p className="text-small uppercase text-accent">
+            {project?.company} PROJECT
+          </p>
           <p className="text-small text-foreground">{project?.description}</p>
-          <div className="flex items-center gap-4 text-accent mt-4">
-            <p className="text-xsmall uppercase border-r border-border pr-6">
+          <div className="flex items-center gap-1 md:gap-4 text-accent mt-4">
+            <p className="text-xsmall uppercase border-r border-border pr-2 md:pr-6">
               {project?.role}
             </p>
             <p className="text-xsmall uppercase">
               {formatDateToText(project?.startDate, project?.endDate)}
             </p>
           </div>
+          <a className="p-3 pl-0" href={project?.githubUrl}>
+            <FaExternalLinkAlt />
+          </a>
         </header>
         <article className="prose prose-sm max-w-none prose-headings:scroll-mt-24 prose-headings:mt-10 prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-accent prose-a:text-accent hover:prose-a:text-secondary-accent text-foreground">
           <ReactMarkdown
@@ -141,21 +149,18 @@ export default function ProjectDetailsPage({ params }: ProjectDetailsParams) {
       </section>
 
       {/* Table of Contents */}
-      <section className="xl:hidden fixed right-4 md:right-20 z-50">
+      <section className="xl:hidden fixed top-26 right-6 md:right-20 z-50">
         <button
           onClick={() => setShowToc(!showToc)}
-          className="flex justify-end w-full cursor-pointer hover:bg-accent-foreground/60"
+          className="opacity-80 flex justify-end w-full cursor-pointer hover:bg-accent-foreground/60"
         >
           <div className="border border-border rounded-md p-1 ">
-            <RxHamburgerMenu />
+            <FaBookOpenReader />
           </div>
         </button>
         {showToc && (
-          <div className="bg-card text-card-foreground rounded-md p-1">
-            <h4 className="text-secondary-foreground text-small uppercase mb-3">
-              On this page
-            </h4>
-            <nav className="flex flex-col gap-2 border-l border-border pl-4">
+          <div className="bg-card text-card-foreground rounded-md py-3 p-1 mt-2">
+            <nav className="flex flex-col gap-4 border-l border-border px-2">
               {toc?.map((item) => (
                 <a
                   key={item.id}

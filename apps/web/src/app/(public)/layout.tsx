@@ -3,6 +3,8 @@ import ThemeToggle from "@/components/theme-toggle";
 import Link from "next/link";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 export default function RootLayout({
   children,
@@ -11,11 +13,11 @@ export default function RootLayout({
 }>) {
   return (
     <InteractiveDotGrid>
-      <header className="md:flex sticky md:text-small text-xsmall text-foreground h-18 border-b border-border hidden items-center justify-center gap-8 lg:gap-30 top-0 z-200 bg-background/50 backdrop-blur-md">
+      <header className="flex sticky md:text-small text-xsmall text-foreground h-18 border-b border-border items-center justify-between px-6 md:justify-center gap-8 lg:gap-30 top-0 z-200 bg-background/50 backdrop-blur-md">
         <Link href="/" className="text-accent font-bold cursor-pointer">
           BEA.ramirez-dev
         </Link>
-        <div className="flex items-center justify-center gap-4 lg:gap-12 ">
+        <div className="hidden md:flex items-center justify-center gap-4 lg:gap-12 ">
           <Link href="/#home" className="hover:text-accent cursor-pointer">
             ~/home
           </Link>
@@ -32,7 +34,53 @@ export default function RootLayout({
             ~/pixel-art
           </Link>
         </div>
-        <ThemeToggle />
+        <div className="hidden md:block ">
+          <ThemeToggle />
+        </div>
+        <div className="md:hidden flex items-center gap-4">
+          <ThemeToggle />
+          <Sheet>
+            <SheetTrigger>
+              <RxHamburgerMenu size={20} />
+            </SheetTrigger>
+            <SheetContent side="right" className="bg-background w-40!">
+              <div className="no-scrollbar overflow-y-auto px-4 py-20">
+                <div className="flex flex-col items-center justify-center gap-4 lg:gap-12 ">
+                  <Link
+                    href="/#home"
+                    className="hover:text-accent cursor-pointer"
+                  >
+                    ~/home
+                  </Link>
+                  <Link
+                    href="/#projects"
+                    className="hover:text-accent cursor-pointer"
+                  >
+                    ~/projects
+                  </Link>
+                  <Link
+                    href="/#contact"
+                    className="hover:text-accent cursor-pointer"
+                  >
+                    ~/contact
+                  </Link>
+                  <Link
+                    href="/#blog"
+                    className="hover:text-accent cursor-pointer"
+                  >
+                    ~/blog
+                  </Link>
+                  <Link
+                    href="/#pixel-art"
+                    className="hover:text-accent cursor-pointer"
+                  >
+                    ~/pixel-art
+                  </Link>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </header>
       <main>{children}</main>
       {/* Footer */}
@@ -45,7 +93,7 @@ export default function RootLayout({
           >
             <FaGithub
               size={18}
-              className="text-card group-hover:text-accent "
+              className="text-foreground group-hover:text-accent "
             />
           </a>
           <a
@@ -54,7 +102,7 @@ export default function RootLayout({
           >
             <FaLinkedinIn
               size={18}
-              className="text-card group-hover:text-accent"
+              className="text-foreground group-hover:text-accent"
             />
           </a>
           <a
@@ -63,7 +111,7 @@ export default function RootLayout({
           >
             <IoIosMail
               size={18}
-              className="text-card group-hover:text-accent"
+              className="text-foreground group-hover:text-accent"
             />
           </a>
         </div>

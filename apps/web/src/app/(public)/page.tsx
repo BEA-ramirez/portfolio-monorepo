@@ -76,9 +76,9 @@ export default function Home() {
   };
 
   return (
-    <div className="font-mono flex flex-col flex-1  ">
+    <div className="font-mono flex flex-col flex-1 gap-20">
       {/* Home */}
-      <section id="home" className="p-10 md:p-30">
+      <section id="home" className="scroll-mt-38 mt-8 p-6 md:p-30 ">
         <div className="bg-card text-sm text-muted-foreground mb-5 flex gap-4 items-center border border-border w-fit p-1 px-3 rounded-3xl">
           <div className="rounded-full bg-accent w-2 h-2" />
           <p className="uppercase">available</p>
@@ -111,13 +111,13 @@ export default function Home() {
         </p>
         <div className="flex flex-col md:flex-row items-start gap-3 lg:items-center justify-between md:w-130">
           <div className="flex items-center gap-3">
-            <button className="px-3 py-2 text-sm flex items-center gap-3 bg-accent hover:bg-secondary-accent text-foreground rounded-lg cursor-pointer">
+            <button className="px-3 py-2 text-small md:text-sm flex items-center gap-3 bg-accent hover:bg-secondary-accent text-foreground rounded-lg cursor-pointer">
               <p>→</p>
               <p>get in touch</p>
             </button>
             <button
               onClick={() => router.push("/projects")}
-              className="px-3 py-2 text-sm text-foreground bg-card hover:text-accent hover:border-accent flex items-center gap-3 border border-border rounded-lg cursor-pointer"
+              className="px-3 py-2 text-small md:text-sm text-foreground bg-card hover:text-accent hover:border-accent flex items-center gap-3 border border-border rounded-lg cursor-pointer"
             >
               <p>$</p>
               <p>ls projects/</p>
@@ -156,12 +156,15 @@ export default function Home() {
       </section>
 
       {/* Projects */}
-      <section id="projects" className="p-10 md:p-30 text-foreground">
+      <section
+        id="projects"
+        className="scroll-mt-22 p-6 md:p-30 text-foreground"
+      >
         <div className="flex  items-start justify-between">
           <h6 className="uppercase text-small text-accent font-bold">
             <span>02</span> Featured Work
           </h6>
-          <div className="flex flex-col items-end text-small text-accent font-semibold">
+          <div className="flex flex-col items-end text-xsmall md:text-small text-accent font-semibold">
             <p>~/projects/featured</p>
             <p>
               {featuredProjects.length} of {totalProjects} visible
@@ -174,19 +177,19 @@ export default function Home() {
         <div className="w-full mb-4 flex items-center gap-3 pb-10 border-b border-dashed border-border overflow-x-auto scrollbar-thin scrollbar-thumb-accent">
           {isLoading ? (
             <div>
-              <p className="px-4 py-8 text-center text-secondary-foreground">
+              <p className="px-4 py-8 h-80 text-center text-secondary-foreground">
                 Loading projects...
               </p>
             </div>
           ) : isError ? (
             <div>
-              <p className="px-4 py-8 text-center text-red-500">
+              <p className="px-4 py-8 h-80 text-center text-red-500">
                 Failed to load featured projects.
               </p>
             </div>
           ) : featuredProjects.length === 0 ? (
             <div>
-              <p className="px-4 py-8 text-secondary-foreground">
+              <p className="px-4 py-8 h-80 text-secondary-foreground">
                 No featured projects found.
               </p>
             </div>
@@ -212,12 +215,15 @@ export default function Home() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="p-10 md:p-30 pb-10 text-foreground ">
+      <section
+        id="contact"
+        className="scroll-mt-22 p-6 md:p-30 pb-10 text-foreground "
+      >
         <div className="flex items-start justify-between">
           <h6 className="uppercase text-small text-accent font-bold">
             <span>03</span> Get in Touch
           </h6>
-          <div className="flex flex-col items-end text-small text-accent font-semibold">
+          <div className="flex flex-col items-end text-xsmall md:text-small text-accent font-semibold">
             <p>~/contact</p>
             <p>{"replies in < 24"}</p>
           </div>
@@ -225,9 +231,9 @@ export default function Home() {
         <h2 className="mb-6 text-3xl md:text-h1 md:-mt-4 border-b border-border pb-6">
           Let&apos;s collaborate
         </h2>
-        <div className="flex lg:flex-row flex-col justify-between gap-3 md:gap-12">
+        <div className="flex lg:flex-row flex-col justify-between gap-1 md:gap-12">
           <div className="flex-1">
-            <div className="border-b border-dashed pb-3  ">
+            <div className="border-b border-dashed pb-1 md:pb-3">
               <a
                 href="mailto:beaerinangelramirez@gmail.com"
                 className="text-sm md:text-h3 tracking-wider hover:font-semibold hover:text-accent transition-all duration-300"
@@ -235,7 +241,7 @@ export default function Home() {
                 beaerinangelramirez@gmail.com →
               </a>
             </div>
-            <div className="mt-8 mb-12 flex flex-col gap-1">
+            <div className="mt-4 md:mt-8 mb-12 flex flex-col gap-1">
               <p className="text-sm mb-1">
                 <span className="text-accent font-medium">location</span>{" "}
                 Philippines, Ormoc City

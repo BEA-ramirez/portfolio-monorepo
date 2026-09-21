@@ -1,2 +1,7 @@
-- Installed tanstack query
-- Implemented caching to the public pages
+- Improved mobile responsiveness
+- Improved mobile UI
+     components:
+          -projects
+          -project-card
+          -sections in home page
+          -nav in project deets

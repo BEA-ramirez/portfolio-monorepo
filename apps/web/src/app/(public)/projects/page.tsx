@@ -69,7 +69,7 @@ export default function ProjectsPage() {
         ~ / projects / {filteredProjects.length} of {projects.length} entries
       </h6>
 
-      <h2 className="text-5xl md:text-6xl text-foreground font-semibold mb-4">
+      <h2 className="text-2xl md:text-6xl text-foreground font-semibold mb-4">
         $ ls -al <span className="text-accent">~/projects</span>
       </h2>
       <p className="text-small text-foreground">
@@ -108,16 +108,18 @@ export default function ProjectsPage() {
             className="group flex items-center gap-4 justify-between p-6 md:px-6 px-0 border-b border-border"
           >
             <div className="flex flex-col gap-1  max-w-200">
-              <h5 className="text-md md:text-2xl text-foreground font-medium group-hover:text-accent transition-colors">
+              <h5 className="text-sm md:text-2xl text-foreground font-medium group-hover:text-accent transition-colors">
                 {project.title}
               </h5>
-              <p className="text-xsmall md:text-small text-secondary-foreground line-clamp-3">
+              <p className="text-[0.7rem] md:text-small text-secondary-foreground line-clamp-3">
                 {project.description}
               </p>
             </div>
             <div className="flex flex-col items-end text-xsmall gap-2 text-accent font-semibold">
-              <p className="uppercase">{project.role}</p>
-              <p>{formatDateInProjects(project.startDate, project.endDate)}</p>
+              <p className="uppercase text-[0.7rem]">{project.role}</p>
+              <p className="text-[0.5rem]">
+                {formatDateInProjects(project.startDate, project.endDate)}
+              </p>
             </div>
           </Link>
         ))

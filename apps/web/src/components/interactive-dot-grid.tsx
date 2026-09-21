@@ -29,7 +29,7 @@ export default function InteractiveDotGrid({
       {/* LAYER 1: gray grid */}
 
       <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-50 dark:hidden"
+        className="pointer-events-none fixed inset-0 z-0 opacity-36 dark:hidden"
         style={{
           backgroundImage: `radial-gradient(circle at center, #949dab 1.55px, transparent 1.55px)`,
           backgroundSize: "30px 30px",
@@ -47,7 +47,7 @@ export default function InteractiveDotGrid({
 
       {/* LAYER 2: violet highlight grid */}
       <div
-        className="pointer-events-none fixed inset-0 z-0"
+        className="hidden md:block pointer-events-none fixed inset-0 z-0"
         style={{
           // creates the exact same grid, but in Violet
           backgroundImage: `radial-gradient(circle at center, #7f22fe 1.6px, transparent 1.6px)`,
