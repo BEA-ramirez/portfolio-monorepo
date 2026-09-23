@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 
 const contactSchema = z.object({
   name: z.string().min(1, "Name is required."),
@@ -78,80 +79,96 @@ export default function Home() {
   return (
     <div className="font-mono flex flex-col flex-1 gap-20">
       {/* Home */}
-      <section id="home" className="scroll-mt-38 mt-8 p-6 md:p-30 ">
-        <div className="bg-card text-sm text-muted-foreground mb-5 flex gap-4 items-center border border-border w-fit p-1 px-3 rounded-3xl">
-          <div className="rounded-full bg-accent w-2 h-2" />
-          <p className="uppercase">available</p>
-          <p>-</p>
-          <p>for work</p>
-        </div>
+      <section
+        id="home"
+        className="scroll-mt-38 mt-0 md:mt-8 p-6 md:p-30  flex flex-col-reverse md:flex-row gap-5 lg:gap-20 items-center"
+      >
+        <div>
+          <div className="bg-card text-sm text-muted-foreground mb-5 flex gap-4 items-center border border-border w-fit p-1 px-3 rounded-3xl">
+            <div className="rounded-full bg-accent w-2 h-2" />
+            <p className="uppercase">available</p>
+            <p>-</p>
+            <p>for work</p>
+          </div>
 
-        <h2 className="mb-2 text-4xl md:text-6xl font-bold text-foreground">
-          $ hi, I&apos;m
-        </h2>
-        <div className="mb-5 flex items-center gap-2 ">
-          <h2 className="text-4xl md:text-6xl font-bold text-foreground">
-            BEA Ramirez
+          <h2 className="mb-2 text-4xl md:text-6xl font-bold text-foreground">
+            $ hi, I&apos;m
           </h2>
-          <div className="w-5 h-13 bg-foreground" />
+          <div className="mb-5 flex items-center gap-2 ">
+            <h2 className="text-4xl md:text-6xl font-bold text-foreground">
+              BEA Ramirez
+            </h2>
+            <div className="w-5 h-13 bg-foreground" />
+          </div>
+
+          <p className="mb-6 text-xsmall md:text-small text-accent font-semibold">
+            Full-Stack Developer | CS Fresh Graduate | Visayas State University
+          </p>
+
+          <p className="mb-8 md:w-140 text-xsmall md:text-small text-foreground">
+            I build full-stack web applications end-to-end: real-time management
+            systems, robust backends, and the clean interfaces beneath them.
+            Throughout my CS degree, I&apos;ve focused on shipping modern
+            projects using Next.js, Tailwind, and Supabase. Lately, I&apos;ve
+            been obsessed with integrating AI into real product surfaces to see
+            what it can do. I&apos;m a fresh grad, a continuous learner, and a
+            pixel artist in training. This portfolio is my latest deployment.
+          </p>
+          <div className="flex flex-col md:flex-row items-start gap-3 lg:items-center justify-between md:w-130">
+            <div className="flex items-center gap-3">
+              <button className="px-3 py-2 text-small md:text-sm flex items-center gap-3 bg-accent hover:bg-secondary-accent text-foreground rounded-lg cursor-pointer">
+                <p>→</p>
+                <p>get in touch</p>
+              </button>
+              <button
+                onClick={() => router.push("/projects")}
+                className="px-3 py-2 text-small md:text-sm text-foreground bg-card hover:text-accent hover:border-accent flex items-center gap-3 border border-border rounded-lg cursor-pointer"
+              >
+                <p>$</p>
+                <p>ls projects/</p>
+              </button>
+            </div>
+            <div className="flex items-center gap-2">
+              <a
+                href="https://github.com/BEA-ramirez"
+                className="group hover:border-accent px-2 py-2 border border-border rounded-lg bg-background"
+              >
+                <FaGithub
+                  size={18}
+                  className="text-foreground group-hover:text-accent"
+                />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/bea-erin-angel-ramirez/"
+                className="group hover:border-accent px-2 py-2 border border-border rounded-lg bg-background"
+              >
+                <FaLinkedinIn
+                  size={18}
+                  className="text-foreground group-hover:text-accent"
+                />
+              </a>
+              <a
+                href="mailto:beaerinangelramirez@gmail.com"
+                className="group hover:border-accent px-2 py-2 border border-border rounded-lg bg-background"
+              >
+                <IoIosMail
+                  size={18}
+                  className="text-foreground group-hover:text-accent"
+                />
+              </a>
+            </div>
+          </div>
         </div>
-
-        <p className="mb-6 text-xsmall md:text-small text-accent font-semibold">
-          Full-Stack Developer | CS Fresh Graduate | Visayas State University
-        </p>
-
-        <p className="mb-8 md:w-140 text-xsmall md:text-small text-foreground">
-          I build full-stack web applications end-to-end: real-time management
-          systems, robust backends, and the clean interfaces beneath them.
-          Throughout my CS degree, I&apos;ve focused on shipping modern projects
-          using Next.js, Tailwind, and Supabase. Lately, I&apos;ve been obsessed
-          with integrating AI into real product surfaces to see what it can do.
-          I&apos;m a fresh grad, a continuous learner, and a pixel artist in
-          training. This portfolio is my latest deployment.
-        </p>
-        <div className="flex flex-col md:flex-row items-start gap-3 lg:items-center justify-between md:w-130">
-          <div className="flex items-center gap-3">
-            <button className="px-3 py-2 text-small md:text-sm flex items-center gap-3 bg-accent hover:bg-secondary-accent text-foreground rounded-lg cursor-pointer">
-              <p>→</p>
-              <p>get in touch</p>
-            </button>
-            <button
-              onClick={() => router.push("/projects")}
-              className="px-3 py-2 text-small md:text-sm text-foreground bg-card hover:text-accent hover:border-accent flex items-center gap-3 border border-border rounded-lg cursor-pointer"
-            >
-              <p>$</p>
-              <p>ls projects/</p>
-            </button>
-          </div>
-          <div className="flex items-center gap-2">
-            <a
-              href="https://github.com/BEA-ramirez"
-              className="group hover:border-accent px-2 py-2 border border-border rounded-lg bg-background"
-            >
-              <FaGithub
-                size={18}
-                className="text-foreground group-hover:text-accent"
-              />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/bea-erin-angel-ramirez/"
-              className="group hover:border-accent px-2 py-2 border border-border rounded-lg bg-background"
-            >
-              <FaLinkedinIn
-                size={18}
-                className="text-foreground group-hover:text-accent"
-              />
-            </a>
-            <a
-              href="mailto:beaerinangelramirez@gmail.com"
-              className="group hover:border-accent px-2 py-2 border border-border rounded-lg bg-background"
-            >
-              <IoIosMail
-                size={18}
-                className="text-foreground group-hover:text-accent"
-              />
-            </a>
-          </div>
+        <div className="w-full max-w-[200px] md:max-w-[350px] xl:max-w-[400px] flex justify-center mt-0 md:mt-10 xl:mt-0">
+          <Image
+            src="/cat-on-tv.gif"
+            alt="Pixel art of a retro TV with a sleeping cat and blinking terminal"
+            width={400}
+            height={400}
+            unoptimized={true}
+            priority={true}
+            className="[image-rendering:pixelated] w-full h-auto drop-shadow-xl"
+          />
         </div>
       </section>
 
